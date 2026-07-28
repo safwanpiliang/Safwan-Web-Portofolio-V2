@@ -48,6 +48,8 @@ export function FakeCursor({
 
   useEffect(() => {
     if (windowSize.width === 0) return;
+    // Don't run cursor animation on mobile — no cursor on touch devices
+    if (windowSize.width < 768) return;
 
     let isMounted = true;
     
@@ -157,7 +159,7 @@ export function FakeCursor({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.2 } }}
             style={{ backgroundColor: themeColor }}
-            className="absolute top-[20px] left-[19px] z-20 text-white text-[14px] px-[14px] py-[8px] rounded-r-2xl rounded-bl-2xl whitespace-nowrap font-inter font-medium shadow-md flex items-center min-h-[36px]"
+            className="absolute top-[20px] left-[19px] z-20 text-slate-100 text-[14px] px-[14px] py-[8px] rounded-r-2xl rounded-bl-2xl whitespace-nowrap font-inter font-medium shadow-md flex items-center min-h-[36px]"
           >
             <span>{displayedText}</span>
             <motion.span 

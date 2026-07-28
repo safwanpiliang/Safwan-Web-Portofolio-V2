@@ -80,7 +80,8 @@ export function Navbar() {
   const spacerFlex = useTransform(effectiveScroll, scrollRange, [1, 0]);
 
   // Group wrappers (tabs and CTA)
-  const groupBg = useTransform(effectiveScroll, scrollRange, ["rgba(241, 245, 249, 0)", "rgba(241, 245, 249, 1)"]);
+  const groupBg = useTransform(effectiveScroll, scrollRange, ["rgba(248, 250, 252, 0)", "rgba(248, 250, 252, 1)"]);
+  const groupShadow = useTransform(effectiveScroll, scrollRange, ["0px 0px 0px rgba(0, 0, 0, 0)", "0px 4px 20px rgba(0, 0, 0, 0.08)"]);
   const groupPaddingPx = useTransform(effectiveScroll, scrollRange, [0, 8]);
   const groupPadding = useTransform(groupPaddingPx, v => `${v}px`);
 
@@ -157,6 +158,7 @@ export function Navbar() {
         <motion.div 
           style={{
             backgroundColor: groupBg,
+            boxShadow: groupShadow,
             padding: groupPadding,
           }}
           className="relative flex items-center gap-[4px] md:gap-[15px] rounded-[999px]"
@@ -182,11 +184,16 @@ export function Navbar() {
             <motion.div 
               style={{
                 backgroundColor: groupBg,
+                boxShadow: groupShadow,
                 padding: groupPadding,
               }}
+              initial={false}
               className="flex items-center rounded-[999px]"
             >
-              <motion.button
+              <motion.a
+                href="https://www.instagram.com/safwan.piliang"
+                target="_blank" 
+                rel="noopener noreferrer"
                 style={{
                   backgroundColor: ctaBg,
                   color: ctaColor,
@@ -217,7 +224,7 @@ export function Navbar() {
                 <motion.div>
                   <ArrowUpRight className="w-[20px] h-[20px] group-hover:translate-x-[2px] group-hover:-translate-y-[2px] transition-transform duration-200" />
                 </motion.div>
-              </motion.button>
+              </motion.a>
             </motion.div>
           </>
         )}

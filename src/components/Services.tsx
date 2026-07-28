@@ -16,7 +16,7 @@ function ServiceCard({ card, idx, cardVariants }: { card: any, idx: number, card
             {card.title}
           </h3>
           <div className="bg-[#ffab2f] px-[10px] py-[3px] rounded-[16px] flex items-center shrink-0">
-            <span className="font-inter font-normal text-[12px] sm:text-[13px] text-white tracking-[0.16px]">
+            <span className="font-inter font-normal text-[12px] sm:text-[13px] text-slate-700 tracking-[0.16px]">
               {card.count}
             </span>
           </div>
@@ -67,9 +67,9 @@ export function Services() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-center w-full flex flex-wrap justify-center gap-x-[8px] md:gap-x-[16px] items-center mb-0 md:mb-8"
         >
-          <span className="font-montserrat font-bold text-[40px] md:text-[48px] lg:text-[64px] text-slate-100">Let&apos;s</span>
-          <span className="font-doto font-black text-[40px] md:text-[48px] lg:text-[64px] text-slate-100"><ScrambleText text="Build" /></span>
-          <span className="font-montserrat font-bold text-[40px] md:text-[48px] lg:text-[64px] text-slate-100">together</span>
+          <span className="font-montserrat font-bold text-[40px] md:text-[48px] lg:text-[64px] text-slate-900">Let&apos;s</span>
+          <span className="font-doto font-black text-[40px] md:text-[48px] lg:text-[64px] text-slate-900"><ScrambleText text="Build" /></span>
+          <span className="font-montserrat font-bold text-[40px] md:text-[48px] lg:text-[64px] text-slate-900">together</span>
         </motion.div>
 
         {/* Liquid Glass Cards Grid */}

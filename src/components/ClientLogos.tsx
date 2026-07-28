@@ -27,7 +27,7 @@ export function ClientLogos() {
   ];
 
   return (
-    <div className="absolute bottom-[5%] md:bottom-[15%] left-0 w-full flex flex-col gap-[20px] md:gap-[40px] z-20 pointer-events-none overflow-hidden">
+    <div className="absolute bottom-[20%] md:bottom-[28%] left-0 w-full flex flex-col gap-[20px] md:gap-[40px] z-20 pointer-events-none overflow-hidden">
       
       {/* Row 1 (Moving Left) */}
       <div className="relative flex w-full overflow-hidden">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Montserrat, Doto, Jaro } from "next/font/google";
 import "./globals.css";
+import { LoadingScreen } from "@/components/LoadingScreen";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -38,7 +39,10 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${montserrat.variable} ${doto.variable} ${jaro.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-inter">{children}</body>
+      <body className="min-h-full flex flex-col font-inter">
+        <LoadingScreen />
+        {children}
+      </body>
     </html>
   );
 }

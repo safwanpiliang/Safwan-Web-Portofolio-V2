@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #1e293b; /* slate-800 */
-  --foreground: #f1f5f9; /* slate-100 */
+  --background: #f1f5f9; /* slate-100 */
+  --foreground: #0f172a; /* slate-900 */
 }
 
 @theme inline {
@@ -18,11 +18,11 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 *, *::before, *::after, *:hover, *:active, *:focus {
-  cursor: url('/source_image/Cursor.svg') 1 4, default !important;
+  cursor: url('/source_image/Main Cursor Dark.svg') 1 4, default !important;
 }
 
 @layer utilities {

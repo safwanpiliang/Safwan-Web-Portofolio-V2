@@ -55,7 +55,7 @@ export function Hero() {
       <motion.div
         animate={{ y: [0, -20, 0], opacity: [0.5, 0.8, 0.5] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[20%] left-[10%] w-[150px] h-[150px] md:w-[300px] md:h-[300px] bg-white/10 rounded-full blur-3xl pointer-events-none"
+        className="absolute top-[20%] left-[10%] w-[150px] h-[150px] md:w-[300px] md:h-[300px] bg-slate-900/10 rounded-full blur-3xl pointer-events-none"
       />
       <motion.div
         animate={{ y: [0, 30, 0], opacity: [0.3, 0.6, 0.3] }}
@@ -72,7 +72,7 @@ export function Hero() {
         {/* Text block */}
         <motion.div variants={itemVariants} className="flex flex-col gap-[4px] md:gap-[8px] items-center text-center tracking-[0.33px] md:tracking-[0.6px]">
           {/* Figma mobile: 12px / Desktop: 20px */}
-          <p className="font-montserrat text-[12px] md:text-[20px] text-white">
+          <p className="font-montserrat text-[12px] md:text-[20px] text-slate-100">
             Hi, Im <span className="font-semibold">Safwan Piliang!</span>
           </p>
 
@@ -86,7 +86,7 @@ export function Hero() {
             </motion.p>
             <motion.p
               whileHover={{ scale: 1.05, rotate: 2 }}
-              className="font-doto font-black cursor-default text-white leading-[1.2]"
+              className="font-doto font-black cursor-default text-slate-100 leading-[1.2]"
             >
               <ScrambleText text="Digital" />
             </motion.p>
@@ -106,7 +106,12 @@ export function Hero() {
 
         {/* Buttons */}
         <motion.div variants={itemVariants} className="flex flex-col md:flex-row md:flex-wrap justify-center gap-[10px] md:gap-[16px] w-full max-w-[283px] md:max-w-none md:w-auto">
-          <Button variant="white" icon={ChevronDown} className="w-full md:w-auto justify-center">
+          <Button 
+            variant="white" 
+            icon={ChevronDown} 
+            className="w-full md:w-auto justify-center"
+            onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+          >
             Explore My Work
           </Button>
           <Button variant="ghost" icon={ArrowUpRight} className="w-full md:w-auto justify-center bg-white/25 text-slate-700 hover:bg-white/40">

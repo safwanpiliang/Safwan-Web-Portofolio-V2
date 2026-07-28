@@ -1,7 +1,7 @@
 export function Footer() {
   return (
-    <footer className="w-full bg-slate-900 py-6 sm:py-8 px-4 flex flex-col items-center justify-center border-t border-slate-800">
-      <p className="font-inter text-slate-400 text-xs sm:text-sm text-center">
+    <footer className="w-full flex flex-col items-center justify-center py-8 md:py-12 mt-20 border-t border-slate-300">
+      <p className="font-inter text-slate-500 text-xs sm:text-sm text-center">
         © {new Date().getFullYear()} Safwan Piliang. All rights reserved.
       </p>
     </footer>
