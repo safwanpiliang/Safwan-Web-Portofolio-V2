@@ -41,6 +41,7 @@ const PROJECT_DATA = [
     category: "UI Design",
     image: "/source_image/projects/BATAM_Cover.webp",
     description: "Batam Campus Expo is the largest education fair in Batam, initiated by students from Batam who are studying at various universities across Indonesia.",
+    behance: "https://www.behance.net/gallery/253353683/BATAM-CAMPUS-EXPO-Gamifying-the-College-Hunt",
     liveProject: "https://batamcampusexpo.onrender.com/"
   },
   {
@@ -48,7 +49,8 @@ const PROJECT_DATA = [
     title: "SkyBase",
     category: "UI Design",
     image: "/source_image/projects/SkyBase_Cover.webp",
-    description: "SkyBase is a web-based flight schedule management system. It is designed for airline supervisors to easily input, modify, and reschedule flight schedules."
+    description: "SkyBase is a web-based flight schedule management system. It is designed for airline supervisors to easily input, modify, and reschedule flight schedules.",
+    behance: "https://www.behance.net/gallery/253354089/SkyBase-Aviation-Inventory-Management-System"
   },
   {
     id: 6,
@@ -83,6 +85,7 @@ const PROJECT_DATA = [
     category: "Graphic Design",
     image: "/source_image/projects/BEM_Cover.webp",
     description: "A complete visual system built to help designers stay consistent, intentional, and on-brand from color systems and typography to visual hierarchy and design rules.",
+    behance: "https://www.behance.net/gallery/253354603/Brand-Guidelines-BEM-KM-SV-UGM",
     instagram: "https://www.instagram.com/bemkmsvugm?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
   },
   {
@@ -91,6 +94,7 @@ const PROJECT_DATA = [
     category: "Graphic Design",
     image: "/source_image/projects/KMID_Cover.webp",
     description: "KMID UGM is an official community under the Directorate of Student Affairs (Sub-directorate of Creativity) of UGM. This community provides a platform for students to learn, collaborate, and develop digital innovation ideas.",
+    behance: "https://www.behance.net/gallery/253395351/KMID-Social-Media-Branding-Design",
     instagram: "https://www.instagram.com/kmidugm?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
   },
   {
@@ -99,6 +103,7 @@ const PROJECT_DATA = [
     category: "Graphic Design",
     image: "/source_image/projects/KMTEDI_Cover.webp",
     description: "KMTEDI is an official student organization operating under the Department of Electrical Engineering and Informatics (DTEDI) at UGM Vocational College.",
+    behance: "https://www.behance.net/gallery/253395549/KMTEDI-UGM-Brand-Guidelines-and-Social-Media-Design",
     instagram: "https://www.instagram.com/kmtedi.sv.ugm?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
   },
   {
@@ -107,6 +112,7 @@ const PROJECT_DATA = [
     category: "Graphic Design",
     image: "/source_image/projects/tges_cover.webp",
     description: "TEDI Games and Electronic Sports is an annual sports, arts, and esports competition organized by the Department of Electrical Engineering and Informatics (TEDI), UGM Vocational College.",
+    behance: "https://www.behance.net/gallery/253395687/TGES-UGM-Social-Media-Feed-Design",
     instagram: "https://www.instagram.com/tges.ugm?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
   },
   {
@@ -115,6 +121,7 @@ const PROJECT_DATA = [
     category: "Graphic Design",
     image: "/source_image/projects/vocentic_cover.webp",
     description: "Vocentic (Vocational Entrepreneur and Innovation Competition) is an annual event hosted by the Student Executive Board (BEM KM) of UGM Vocational College. The event series features competitions (essay, poster, and business plan), seminars, exhibitions, and campus tours for students.",
+    behance: "https://www.behance.net/gallery/253395841/VOCENTIC-Poster-and-Social-Media-Design?platform=direct",
     instagram: "https://www.instagram.com/vocentic.ugm?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
   },
   {
@@ -254,32 +261,22 @@ function ProjectCard({ project, index }: { project: any, index: number }) {
 export function Projects() {
 
   const [activeCategory, setActiveCategory] = useState("All");
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const [visibleCount, setVisibleCount] = useState(6);
 
   const filteredProjects = useMemo(() => {
     if (activeCategory === "All") return PROJECT_DATA;
     return PROJECT_DATA.filter(p => p.category === activeCategory);
   }, [activeCategory]);
 
-  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+  const visibleProjects = filteredProjects.slice(0, visibleCount);
 
-  const paginatedProjects = filteredProjects.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(prev => prev + 1);
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) setCurrentPage(prev => prev - 1);
+  const handleLoadMore = () => {
+    setVisibleCount(prev => prev + 6);
   };
 
   const setCategory = (category: string) => {
     setActiveCategory(category);
-    setCurrentPage(1);
+    setVisibleCount(6);
   };
 
   return (
@@ -357,47 +354,25 @@ export function Projects() {
         <div
           className="grid grid-cols-2 lg:grid-cols-3 gap-[12px] sm:gap-[24px] md:gap-[48px] lg:gap-[64px] justify-center items-stretch pt-2"
         >
-          {paginatedProjects.map((project, idx) => (
+          {visibleProjects.map((project, idx) => (
             <ProjectCard key={project.id} project={project} index={idx} />
           ))}
         </div>
 
-        {/* Pagination */}
-        {totalPages > 1 && (
+        {/* Load More */}
+        {visibleCount < filteredProjects.length && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="flex items-center justify-center gap-[6px] mt-2"
+            className="flex items-center justify-center mt-4"
           >
             <button
-              onClick={handlePrevPage}
-              disabled={currentPage === 1}
-              className={`w-[26px] h-[26px] flex items-center justify-center rounded-full transition-colors ${currentPage === 1 ? 'text-slate-300 cursor-not-allowed' : 'text-slate-400 hover:bg-slate-200/50'}`}
+              onClick={handleLoadMore}
+              className="bg-[#ffab2f] border border-[#ffab2f] text-[#333] font-inter font-medium text-[12px] md:text-[14px] leading-[20px] px-6 py-2.5 md:px-8 md:py-3 rounded-full shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] flex items-center justify-center gap-[6px] md:gap-[8px] hover:bg-[#e69b2a] transition-colors"
             >
-              <ChevronLeft className="w-[18px] h-[18px]" />
-            </button>
-
-            {Array.from({ length: totalPages }).map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrentPage(i + 1)}
-                className={`w-[26px] h-[26px] flex items-center justify-center font-inter font-normal text-[14px] leading-[20px] rounded-full transition-colors ${currentPage === i + 1
-                  ? 'bg-[#ffab2f] text-white'
-                  : 'text-[#4C4E64]/87 hover:bg-slate-200/50'
-                  }`}
-              >
-                {i + 1}
-              </button>
-            ))}
-
-            <button
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              className={`w-[26px] h-[26px] flex items-center justify-center rounded-full transition-colors ${currentPage === totalPages ? 'text-slate-300 cursor-not-allowed' : 'text-slate-400 hover:bg-slate-200/50'}`}
-            >
-              <ChevronRight className="w-[18px] h-[18px]" />
+              Load More Projects
             </button>
           </motion.div>
         )}

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 
 interface FloatingSectionProps {
   children: React.ReactNode;
@@ -27,10 +27,11 @@ export const FloatingSection = ({
   });
 
   // Maps scroll progress to a Y translation (moves up as you scroll down)
-  const y = useTransform(scrollYProgress, [0, 1], [parallaxOffset, -parallaxOffset]);
+  const rawY = useTransform(scrollYProgress, [0, 1], [parallaxOffset, -parallaxOffset]);
+  const y = useSpring(rawY, { stiffness: 400, damping: 90 });
 
   return (
-    <motion.div ref={ref} style={{ y }} className={className}>
+    <motion.div ref={ref} style={{ y }} className={`${className} transform-gpu will-change-transform`}>
       <motion.div
         animate={{ y: [0, -15, 0] }}
         transition={{
@@ -39,7 +40,7 @@ export const FloatingSection = ({
           ease: "easeInOut",
           delay: floatDelay
         }}
-        className="w-full h-full"
+        className="w-full h-full transform-gpu will-change-transform"
       >
         {children}
       </motion.div>

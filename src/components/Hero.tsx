@@ -55,12 +55,12 @@ export function Hero() {
       <motion.div
         animate={{ y: [0, -20, 0], opacity: [0.5, 0.8, 0.5] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[20%] left-[10%] w-[150px] h-[150px] md:w-[300px] md:h-[300px] bg-slate-900/10 rounded-full blur-3xl pointer-events-none"
+        className="absolute top-[20%] left-[10%] w-[150px] h-[150px] md:w-[300px] md:h-[300px] bg-slate-900/10 rounded-full blur-3xl pointer-events-none transform-gpu will-change-transform"
       />
       <motion.div
         animate={{ y: [0, 30, 0], opacity: [0.3, 0.6, 0.3] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute bottom-[20%] right-[15%] w-[200px] h-[200px] md:w-[400px] md:h-[400px] bg-white/20 rounded-full blur-3xl pointer-events-none"
+        className="absolute bottom-[20%] right-[15%] w-[200px] h-[200px] md:w-[400px] md:h-[400px] bg-white/20 rounded-full blur-3xl pointer-events-none transform-gpu will-change-transform"
       />
 
       <motion.div
