@@ -23,7 +23,8 @@ export function HeroParallaxWrapper({ children }: { children: ReactNode }) {
     [0, 0, 40, 360]
   );
 
-  const y = useSpring(rawY, { stiffness: 400, damping: 90 });
+  const smoothY = useSpring(rawY, { stiffness: 400, damping: 90 });
+  const y = useTransform(smoothY, (val) => Math.round(val));
 
   return (
     <motion.div style={{ y }} className="w-full relative z-0 transform-gpu will-change-transform">

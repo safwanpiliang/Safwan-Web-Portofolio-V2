@@ -19,7 +19,7 @@ export function Hero() {
     if (typeof window !== "undefined" && window.innerWidth < 768) {
       return 0;
     }
-    return val;
+    return Math.round(val);
   });
 
   // Stagger variants for the main text elements

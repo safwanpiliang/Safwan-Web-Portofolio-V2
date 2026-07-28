@@ -28,7 +28,8 @@ export const FloatingSection = ({
 
   // Maps scroll progress to a Y translation (moves up as you scroll down)
   const rawY = useTransform(scrollYProgress, [0, 1], [parallaxOffset, -parallaxOffset]);
-  const y = useSpring(rawY, { stiffness: 400, damping: 90 });
+  const smoothY = useSpring(rawY, { stiffness: 400, damping: 90 });
+  const y = useTransform(smoothY, (val) => Math.round(val));
 
   return (
     <motion.div ref={ref} style={{ y }} className={`${className} transform-gpu will-change-transform`}>
