@@ -47,11 +47,7 @@ export function Navbar() {
     const checkMobile = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-      if (mobile) {
-        effectiveScroll.set(200);
-      } else {
-        effectiveScroll.set(scrollY.get());
-      }
+      effectiveScroll.set(scrollY.get());
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
@@ -59,11 +55,7 @@ export function Navbar() {
   }, [effectiveScroll, scrollY]);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    if (isMobile) {
-      effectiveScroll.set(200);
-    } else {
-      effectiveScroll.set(latest);
-    }
+    effectiveScroll.set(latest);
   });
 
   useMotionValueEvent(effectiveScroll, "change", (latest) => {
