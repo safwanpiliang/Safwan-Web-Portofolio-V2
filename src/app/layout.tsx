@@ -37,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${montserrat.variable} ${doto.variable} ${jaro.variable} h-full antialiased`}
+      className={`${inter.variable} ${montserrat.variable} ${doto.variable} ${jaro.variable} antialiased`}
     >
       <body className="min-h-full flex flex-col font-inter">
         <LoadingScreen />
