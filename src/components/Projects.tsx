@@ -230,6 +230,7 @@ function ProjectCard({ project, index }: { project: any, index: number }) {
           <img
             src={project.image}
             alt={project.title}
+            loading={index >= 6 ? "lazy" : undefined}
             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 pointer-events-none"
           />
         </div>

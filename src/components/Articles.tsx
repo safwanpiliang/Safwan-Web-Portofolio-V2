@@ -115,6 +115,7 @@ function ArticleCard({ article }: { article: any }) {
             src={article.image}
             alt={article.title}
             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 pointer-events-none"
+            loading="lazy"
           />
         </div>
 

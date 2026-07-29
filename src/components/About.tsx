@@ -168,7 +168,7 @@ export function About() {
                   className="flex items-center gap-[8px] sm:gap-[12px] md:gap-[16px] group justify-center md:justify-start"
                 >
                   <div className="w-[24px] h-[24px] sm:w-[32px] sm:h-[32px] flex items-center justify-center shrink-0">
-                    <img src={link.iconPath} alt={link.name} className="w-[24px] h-[24px] sm:w-[32px] sm:h-[32px] object-contain" />
+                    <img src={link.iconPath} alt={link.name} className="w-[24px] h-[24px] sm:w-[32px] sm:h-[32px] object-contain" loading="lazy" />
                   </div>
                   <span className="relative font-inter font-normal text-[11px] sm:text-[14px] md:text-[16px] text-slate-700 group-hover:text-slate-600 transition-colors break-all sm:break-normal">
                     {link.name}

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Projects } from "@/components/Projects";
@@ -23,9 +24,12 @@ export default function Home() {
 
           <div className="w-full relative mt-[-40px] z-10 flex flex-col justify-end">
             {/* Base Image (row 1) */}
-            <img
+            <Image
               src="/source_image/Landing Page 2 char 3 1 WEBP.webp"
               alt="3D Robot on Grassy Hill"
+              width={1512}
+              height={1003}
+              priority
               className="w-full h-auto object-cover z-0 pointer-events-none transform-gpu will-change-transform"
             />
 
