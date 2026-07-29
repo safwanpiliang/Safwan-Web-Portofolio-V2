@@ -212,6 +212,17 @@ function ProjectCard({ project, index }: { project: any, index: number }) {
         }}
         className="bg-[#f9fafb] p-[6px] sm:p-[8px] pb-[12px] sm:pb-[16px] flex flex-col gap-[8px] sm:gap-[16px] md:gap-[24px] shadow-lg hover:shadow-2xl transition-shadow duration-500 ease-out border border-white relative z-10 h-full transform-gpu will-change-transform"
       >
+        {/* Clickable Overlay */}
+        {project.behance && (
+          <a
+            href={project.behance}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute inset-0 z-[5]"
+            aria-label={`View ${project.title} on Behance`}
+          />
+        )}
+
         {/* Image Box */}
         <div
           className="w-full aspect-[354/283] overflow-hidden bg-white relative"
@@ -237,7 +248,7 @@ function ProjectCard({ project, index }: { project: any, index: number }) {
 
         {/* Action Buttons */}
         <div
-          className="flex flex-wrap gap-[4px] sm:gap-[8px] md:gap-[10px] items-center justify-end w-full px-[4px] sm:px-[8px] mt-auto"
+          className="flex flex-wrap gap-[4px] sm:gap-[8px] md:gap-[10px] items-center justify-end w-full px-[4px] sm:px-[8px] mt-auto relative z-10"
         >
           {project.medium && (
             <a href={project.medium} target="_blank" rel="noopener noreferrer" className="p-[6px] sm:p-[8px] bg-slate-300/30 rounded-full flex items-center justify-center hover:bg-slate-300/50 transition-colors">
