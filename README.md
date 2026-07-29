@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Safwan Piliang - Web Portfolio (V2)
 
-## Getting Started
+Project portofolio personal berbasis **Next.js** yang telah di-deploy secara live di VPS Hostinger dengan domain **[https://safwan.id](https://safwan.id)**.
 
-First, run the development server:
+---
+
+## 🚀 1. Jalankan di Lokal (Development)
+
+Untuk menjalankan project di laptop/lokal (Mac):
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+Buka [http://localhost:3000](http://localhost:3000) di browser.
+
+---
+
+## 📤 2. Cara Update Kode (Push dari IDE / Mac ke Git)
+
+Setiap kali kamu selesai mengedit kode di IDE (VS Code / Cursor / dsb), jalankan perintah ini di Terminal Mac:
+
+```bash
+# 1. Masuk ke folder project (jika belum)
+cd "/Users/mymac/Documents/CODE PROJECTS/WEB PORTO/Safwan Web Porto V2/portfolio_light_new"
+
+# 2. Tambahkan semua perubahan
+git add .
+
+# 3. Buat commit pesan perubahan
+git commit -m "Deskripsi perubahan kamu"
+
+# 4. Push ke GitHub (Repo: Safwan-Web-Portofolio-V2)
+git push
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🌐 3. Cara Deploy Perubahan ke VPS (`safwan.id`)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Setelah sukses melakukan `git push` di Mac, ikuti langkah berikut untuk memperbarui tampilan di server VPS:
 
-## Learn More
+### Step 3.1: Login SSH ke VPS
+Buka Terminal Mac baru, lalu jalankan:
+```bash
+ssh root@31.97.107.110
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Step 3.2: Tarik Kode & Build Ulang di VPS
+Salin dan jalankan perintah ini sekaligus di VPS:
+```bash
+cd /var/www/portfolio
+git pull
+npm install
+npm run build
+pm2 restart safwan-porto-v2
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ 4. Perintah Perawatan & Troubleshooting VPS
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* **Cek status proses web (PM2):**
+  ```bash
+  pm2 status
+  ```
+* **Lihat log / error jika website mengalami masalah:**
+  ```bash
+  pm2 logs safwan-porto-v2 --lines 50
+  ```
+* **Restart server Nginx:**
+  ```bash
+  sudo systemctl restart nginx
+  ```
+* **Clear Port jika 3000 tersangkut (`EADDRINUSE`):**
+  ```bash
+  pm2 stop safwan-porto-v2
+  sudo fuser -k 3000/tcp
+  pm2 start safwan-porto-v2
+  ```
