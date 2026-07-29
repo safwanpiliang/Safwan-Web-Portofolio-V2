@@ -133,6 +133,14 @@ const PROJECT_DATA = [
     behance: "https://www.behance.net/gallery/241449819/Ramadhan-Mascot-3D",
   },
   {
+    id: 17,
+    title: "GADANI Pionir Permadani UGM Official 3D Mascot",
+    category: "3D Modeling",
+    image: "/source_image/projects/gadani_cover.webp",
+    description: "The official 3D mascot for Pionir Permadani Sekolah Vokasi Universitas Gadjah Mada.",
+    behance: "https://www.behance.net/gallery/253470589/GADANI-Official-Pionir-Permadani-3D-Mascot",
+  },
+  {
     id: 15,
     title: "Habi Habitutor Official Mascot",
     category: "Illustration",
