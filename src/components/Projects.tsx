@@ -82,7 +82,7 @@ const PROJECT_DATA = [
   {
     id: 9,
     title: "BEM SV UGM Brand Guidelines",
-    category: "Graphic Design",
+    category: "Logo and Branding",
     image: "/source_image/projects/BEM_Cover.webp",
     description: "A complete visual system built to help designers stay consistent, intentional, and on-brand from color systems and typography to visual hierarchy and design rules.",
     behance: "https://www.behance.net/gallery/253354603/Brand-Guidelines-BEM-KM-SV-UGM",
@@ -153,6 +153,22 @@ const PROJECT_DATA = [
     category: "Illustration",
     image: "/source_image/projects/nobo_cover.webp",
     description: "Nobo is a 2D character design dummy project based on my pet cat. Serving as a creative playground, this project explores various illustration styles, such as flat vectors and chibi designs, to develop engaging digital mascot assets."
+  },
+  {
+    id: 18,
+    title: "TGES 2026 Event Logo & Typography",
+    category: "Logo and Branding",
+    image: "/source_image/projects/tges logo_cover.webp",
+    description: "Visual identity design for TGES 2026 (TEDI Games and Electronic Sports), an annual multi-event festival featuring sports, arts, and esports competitions at UGM Vocational College.",
+    behance: "https://www.behance.net/gallery/253528063/TGES-2026-Event-Logo-Typography"
+  },
+  {
+    id: 19,
+    title: "KMID UGM: Logo Redesign & Visual Identity",
+    category: "Logo and Branding",
+    image: "/source_image/projects/kmid logo_cover.webp",
+    description: "KMID UGM (Universitas Gadjah Mada Digital Innovation Student Community) is an official student organization at UGM dedicated to coaching, developing, and mentoring students for the Student Digital Innovation Competition (LIDM).",
+    behance: "https://www.behance.net/gallery/253527903/KMID-UGM-Logo-Redesign-Visual-Identit"
   }
 ];
 
@@ -284,7 +300,9 @@ export function Projects() {
   const [visibleCount, setVisibleCount] = useState(6);
 
   const filteredProjects = useMemo(() => {
-    if (activeCategory === "All") return PROJECT_DATA;
+    if (activeCategory === "All") {
+      return [...PROJECT_DATA].sort((a, b) => ((a.id * 13) % 19) - ((b.id * 13) % 19));
+    }
     return PROJECT_DATA.filter(p => p.category === activeCategory);
   }, [activeCategory]);
 
@@ -352,6 +370,12 @@ export function Projects() {
                 className={`${activeCategory === "Graphic Design" ? "bg-slate-300/25" : "hover:bg-slate-300/10"} text-slate-700 font-inter font-medium text-[12px] md:text-[14px] leading-[20px] px-3 py-1.5 md:px-4 md:py-2.5 rounded-full transition-colors`}
               >
                 Graphic Design
+              </button>
+              <button
+                onClick={() => setCategory("Logo and Branding")}
+                className={`${activeCategory === "Logo and Branding" ? "bg-slate-300/25" : "hover:bg-slate-300/10"} text-slate-700 font-inter font-medium text-[12px] md:text-[14px] leading-[20px] px-3 py-1.5 md:px-4 md:py-2.5 rounded-full transition-colors`}
+              >
+                Logo and Branding
               </button>
               <button
                 onClick={() => setCategory("Illustration")}
