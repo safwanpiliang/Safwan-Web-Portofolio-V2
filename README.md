@@ -28,7 +28,7 @@ cd "/Users/mymac/Documents/CODE PROJECTS/WEB PORTO/Safwan Web Porto V2/portfolio
 git add .
 
 # 3. Buat commit pesan perubahan
-git commit -m "IOS Bug Fix"
+git commit -m "New Categories Logo"
 
 # 4. Push ke GitHub (Repo: Safwan-Web-Portofolio-V2)
 git push

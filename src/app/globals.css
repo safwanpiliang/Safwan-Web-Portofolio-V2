@@ -1,13 +1,21 @@
 @import "tailwindcss";
 
-:root {
-  --background: #f1f5f9; /* slate-100 */
-  --foreground: #0f172a; /* slate-900 */
+/* ───────── Design tokens ─────────
+ * Brand colors become utilities: bg-brand-orange, text-ink, bg-brand-blue, ...
+ * Neutrals use Tailwind's slate palette (slate-100 page, slate-700 text).
+ */
+@theme {
+  --color-brand-orange: #ffab2f;
+  --color-brand-orange-hover: #e69b2a;
+  --color-brand-blue: #1e45fc;
+  --color-sky: #28a6ff;
+  --color-ink: #333333;
+  --color-card: #f9fafb;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--color-slate-100);
+  --color-foreground: var(--color-slate-900);
   --font-inter: var(--font-inter), sans-serif;
   --font-montserrat: var(--font-montserrat), sans-serif;
   --font-doto: var(--font-doto), monospace;
@@ -15,13 +23,19 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-background);
+  color: var(--color-foreground);
   font-family: var(--font-inter), sans-serif;
 }
 
-*, *::before, *::after, *:hover, *:active, *:focus {
-  cursor: url('/source_image/Main Cursor Dark.svg') 1 4, default !important;
+/* Custom arrow cursor everywhere; interactive elements keep the pointer hand. */
+* {
+  cursor: url("/images/cursors/cursor-default.svg") 1 4, default;
+}
+
+:is(a, button, [role="button"]),
+:is(a, button, [role="button"]) * {
+  cursor: pointer;
 }
 
 @layer utilities {
@@ -33,6 +47,67 @@ body {
     animation: marquee-right 45s linear infinite;
     will-change: transform;
   }
+  .animate-float-up {
+    animation: float-up 5s ease-in-out infinite both;
+  }
+  .animate-float-down {
+    animation: float-down 7s ease-in-out 1s infinite both;
+  }
+}
+
+/* Clips wide/animated decorations (transition line, ID card) without turning <main> into a
+ * second scroll container. `overflow-x: hidden` alone would force `overflow-y: auto`, and on
+ * mobile that inner scroller sometimes captured swipes so the page felt stuck.
+ * `hidden` is only the fallback for browsers without `overflow: clip`. */
+.page-shell {
+  overflow: hidden;
+  overflow: clip;
+}
+
+/* Hero parallax, desktop only: still until 50vh of scroll, then eases down
+ * 0 → 40px (next 200px of scroll) → 360px (next 800px), so the next section slides over it.
+ * Pure CSS scroll-driven animation (runs on the compositor). Browsers without support,
+ * phones, and reduced-motion users simply get a normal, static hero. */
+@supports ((animation-timeline: view()) and (animation-range: entry)) {
+  @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+    .parallax-hero {
+      animation: parallax-hero linear both;
+      animation-timeline: scroll(root);
+      animation-range: 50vh calc(50vh + 1000px);
+    }
+  }
+}
+
+@keyframes parallax-hero {
+  0% { transform: translate3d(0, 0, 0); }
+  20% { transform: translate3d(0, 40px, 0); }
+  100% { transform: translate3d(0, 360px, 0); }
+}
+
+/* One-shot "fade + slide up" reveal, toggled by data-revealed (see TiltCard).
+ * A CSS transition on opacity/transform is composited, so no per-frame JS or repaint. */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 32px, 0);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  transition-delay: var(--reveal-delay, 0s);
+}
+.reveal[data-revealed="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transform: none;
+  }
+
+  .animate-marquee-left,
+  .animate-marquee-right,
+  .animate-float-up,
+  .animate-float-down {
+    animation: none;
+  }
 }
 
 @keyframes marquee-left {
@@ -43,4 +118,14 @@ body {
 @keyframes marquee-right {
   0% { transform: translate3d(-50%, 0, 0); }
   100% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes float-up {
+  0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.5; }
+  50% { transform: translate3d(0, -20px, 0); opacity: 0.8; }
+}
+
+@keyframes float-down {
+  0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.3; }
+  50% { transform: translate3d(0, 30px, 0); opacity: 0.6; }
 }
