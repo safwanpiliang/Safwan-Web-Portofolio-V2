@@ -68,11 +68,15 @@ export function Button({
   );
 
   if (href) {
-    return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>
-        {content}
-      </a>
-    );
+    const linkProps = { href, target: "_blank", rel: "noopener noreferrer", className: classes };
+    if (animated) {
+      return (
+        <motion.a whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} {...linkProps}>
+          {content}
+        </motion.a>
+      );
+    }
+    return <a {...linkProps}>{content}</a>;
   }
 
   if (animated) {

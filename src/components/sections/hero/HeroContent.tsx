@@ -3,6 +3,7 @@
 import { motion, type Variants } from "framer-motion";
 import { ScrambleText } from "@/components/effects/ScrambleText";
 import { Button } from "@/components/ui/Button";
+import { SITE_LINKS } from "@/data/site";
 import { ChevronDown, ArrowUpRight } from "lucide-react";
 
 export function HeroContent() {
@@ -90,8 +91,7 @@ export function HeroContent() {
           >
             Explore My Work
           </Button>
-          {/* TODO: link to the CV file once it is available */}
-          <Button variant="ghost" icon={ArrowUpRight} animated className="w-full md:w-auto">
+          <Button href={SITE_LINKS.cv} variant="ghost" icon={ArrowUpRight} animated className="w-full md:w-auto">
             Download CV
           </Button>
         </motion.div>

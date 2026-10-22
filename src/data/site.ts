@@ -1,6 +1,11 @@
 export const SITE_LINKS = {
   instagram: "https://www.instagram.com/safwan.piliang",
   behance: "https://www.behance.net/safwanpiliang",
+  /**
+   * Direct download of the CV from Google Drive. To change the file, replace the id with the one from the
+   * Drive share link (.../file/d/<ID>/view). The file must be shared as "Anyone with the link".
+   */
+  cv: "https://drive.google.com/uc?export=download&id=1iMM0v3KjinXg9lZdYFGMDpj3lmXj1FGc",
 } as const;
 
 export const NAV_TABS = [
