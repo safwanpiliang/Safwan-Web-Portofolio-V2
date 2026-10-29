@@ -8,10 +8,6 @@ export const SITE_LINKS = {
   email: "safwanpiliang17@gmail.com",
 } as const;
 
-/** Availability shown in About and Contact. Update when the internship search changes. */
-export const STATUS = "Open for a UI/UX internship · from Dec 2026";
-
-
 export const NAV_TABS = [
   { label: "Home", id: "hero" },
   { label: "My Works", id: "projects" },

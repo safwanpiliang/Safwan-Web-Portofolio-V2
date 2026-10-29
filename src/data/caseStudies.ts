@@ -88,7 +88,6 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Visual hierarchy, navigation and custom 8-bit assets designed from zero.",
       "A countdown in the hero and a \"Top Leaderboard\" where high-school students pick their dream campus.",
     ],
-    outcome: "Built in under a month and used by more than 1,000 registrants.",
   },
 ];
 

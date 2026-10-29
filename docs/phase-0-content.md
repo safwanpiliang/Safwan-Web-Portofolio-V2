@@ -18,7 +18,7 @@ Urutan featured di beranda: PIONIR → PORSENIGAMA → SkyBase → SiBudaya → 
 | `porsenigama` | UI Designer | `[ISI: Mar–Des 2025 (CV) atau Sep 2025–sekarang (LinkedIn)]` | Medium, Behance, live link | Gambar leaderboard & bracket mobile |
 | `skybase` | System Analyst & UX Designer | Agu 2025 – Jan 2026 | Behance, overview (3 peran, alur apron↔gudang) | `[ISI: tugas kuliah atau proyek luar?]`, user flow |
 | `sibudaya` | System Analyst & UX Designer (freelance) | Jan – Agu 2026 | Overview Figma (aksen merah bata) | **Izin klien untuk publikasi**, gambar, deskripsi tantangan/hasil |
-| `batam-campus-expo` | UI Designer (seperti art director) | Okt 2024 – Mar 2025 | Behance, live link, angka: dibuat < 1 bulan, > 1.000 pendaftar | Gambar aset 8-bit |
+| `batam-campus-expo` | UI Designer (seperti art director) | Okt 2024 – Mar 2025 | Behance, live link (angka pendaftar sengaja tidak dipakai, keputusan Safwan) | Gambar aset 8-bit |
 | `simagang` | System Analyst & UI Designer | Agu 2026 – sekarang | Keputusan desain lengkap di vault (Master Data, presentasi berbasis sesi, multi-prodi) | **Izin tim pemilik proyek & departemen** (ini pengerjaan titipan), gambar, status selesai |
 | `simatkul` | UI/UX Designer (tim 7 orang) | Agu 2026 – sekarang | Riset UX & sitemap di vault; design system jadi package `assets-design-system` | Izin tim/ASSETS, gambar, status (masih developing) |
 
@@ -65,7 +65,6 @@ Sertifikat: BINUS Certified Digital Graphic Design with Photoshop and Illustrato
 - **22** proyek di situs (19 sekarang + SiBudaya, SiMagang, SiMatkul)
 - **18** peran di organisasi & proyek sejak 2024 (dari tabel di atas, tanpa pendidikan)
 - **2** studi kasus di Medium
-- **1.000+** pendaftar di situs Batam Campus Expo
 
 ## 4. Status & kontak
 - Status: "Open for UI/UX internship · from Dec 2026" (sumber: vault, Pencarian Magang & CV).

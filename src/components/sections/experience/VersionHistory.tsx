@@ -11,13 +11,12 @@ import { PROJECTS } from "@/data/projects";
 const ALL = "All";
 const FILTERS = [ALL, ...EXPERIENCE_GROUPS];
 
-// Every number is derived from the data files, except the Batam figure from its project overview.
+// Every number is derived from the data files.
 const SINCE = EXPERIENCE.map((e) => e.start).sort()[0].slice(0, 4);
 const STATS = [
   { value: String(PROJECTS.length), label: "projects" },
   { value: String(EXPERIENCE.length), label: `roles since ${SINCE}` },
   { value: String(ARTICLES.length), label: "case studies on Medium" },
-  { value: "1,000+", label: "registrants on Batam Campus Expo" },
 ];
 
 /** Figma-style version number: the oldest role is v1, the newest the highest. */
@@ -25,7 +24,7 @@ const versionOf = (e: Experience) => `v${EXPERIENCE.length - EXPERIENCE.indexOf(
 
 function Stats({ className }: { className: string }) {
   return (
-    <dl className={`grid grid-cols-2 gap-3 ${className}`}>
+    <dl className={`grid grid-cols-3 gap-3 ${className}`}>
       {STATS.map((s) => (
         <div key={s.label} className="reveal-on-view flex flex-col-reverse gap-1 rounded-xl border border-panel-border bg-panel p-4">
           <dt className="font-inter text-xs text-slate-500">{s.label}</dt>

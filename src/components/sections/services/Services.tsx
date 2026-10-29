@@ -24,7 +24,7 @@ function ServiceCard({ service, index, progress, reduce }: CardProps) {
   const scale = useTransform(progress, [index / count, 1], [1, targetScale]);
 
   return (
-    <div className="sticky top-0 flex h-svh items-center justify-center px-4 sm:px-6 pt-6 pb-[var(--toolbar-space)] md:pb-12">
+    <div className="sticky top-0 flex h-svh items-start justify-center px-4 sm:px-6 pt-6 pb-[var(--toolbar-space)] md:pb-12">
       <motion.article
         // Each card sits a little lower than the one before so the stack's edges show; shorten it by
         // the same amount so it never slides under the toolbar.
@@ -73,7 +73,7 @@ export function Services() {
 
   return (
     <section id="services" className="relative w-full pt-20 sm:pt-40 md:pt-56">
-      <div className="mb-4 flex flex-col items-center gap-3 px-4 text-center">
+      <div className="flex flex-col items-center gap-3 px-4 text-center">
         <h2 className="font-montserrat font-medium text-[32px] md:text-[64px] text-slate-700 tracking-[-1px]">
           <Reveal>What</Reveal> <Reveal index={1}>I</Reveal>{" "}
           <Reveal index={2}><span className="font-doto font-black"><ScrambleText text="Do" /></span></Reveal>
