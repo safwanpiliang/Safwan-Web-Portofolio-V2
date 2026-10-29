@@ -49,30 +49,30 @@ export function HeroContent() {
         <motion.div variants={itemVariants} className="flex flex-col gap-1 md:gap-2 items-center text-center tracking-[0.33px] md:tracking-[0.6px]">
           {/* Figma mobile: 12px / Desktop: 20px */}
           <p className="font-montserrat text-[12px] md:text-[20px] text-slate-100">
-            Hi, Im <span className="font-semibold">Safwan Piliang!</span>
+            Hi, I&apos;m <span className="font-semibold">Safwan Piliang!</span>
           </p>
 
           {/* Mobile: scaled down to 36px, Desktop: 64/72px */}
-          <div className="flex flex-col md:flex-row md:flex-wrap justify-center gap-x-3 gap-y-[3px] md:gap-y-[4px] items-center text-[36px] md:text-[48px] lg:text-[72px] text-slate-100 tracking-[0.2px]">
-            <motion.p
+          <h1 className="flex flex-col md:flex-row md:flex-wrap justify-center gap-x-3 gap-y-[3px] md:gap-y-[4px] items-center text-[36px] md:text-[48px] lg:text-[72px] text-slate-100 tracking-[0.2px]">
+            <motion.span
               whileHover={{ scale: 1.05, rotate: -2 }}
               className="font-montserrat font-bold leading-[1.2]"
             >
               Crafting
-            </motion.p>
-            <motion.p
+            </motion.span>
+            <motion.span
               whileHover={{ scale: 1.05, rotate: 2 }}
               className="font-doto font-black text-slate-100 leading-[1.2]"
             >
               <ScrambleText text="Digital" />
-            </motion.p>
-            <motion.p
+            </motion.span>
+            <motion.span
               whileHover={{ scale: 1.05, rotate: -1 }}
               className="font-montserrat font-bold leading-[1.2]"
             >
               Experience
-            </motion.p>
-          </div>
+            </motion.span>
+          </h1>
 
           {/* Mobile: 16px / Desktop: 36px */}
           <p className="font-montserrat font-medium text-[16px] md:text-[24px] lg:text-[36px] text-slate-100 tracking-[0.2px]">

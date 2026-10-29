@@ -34,7 +34,7 @@ export function Projects() {
   };
 
   return (
-    <section id="projects" className="relative w-full pt-20 pb-12 sm:pt-40 sm:pb-8 md:pt-56 md:pb-16 flex flex-col items-center justify-center overflow-hidden">
+    <section id="projects" className="relative w-full pt-16 pb-12 sm:pb-8 md:pt-24 md:pb-16 flex flex-col items-center justify-center overflow-hidden">
       <div className="w-full max-w-[1400px] px-4 sm:px-6 z-10 flex flex-col gap-6 md:gap-8">
 
         <div className="flex flex-col gap-6 items-center w-full">
@@ -45,7 +45,7 @@ export function Projects() {
             className="flex flex-wrap justify-center items-center gap-x-2 sm:gap-x-3 md:gap-x-4 text-center"
           >
             <span className="font-montserrat font-medium text-[32px] md:text-[64px] text-slate-700 tracking-[-1px]">
-              Selected <span className="font-doto font-black"><ScrambleText text="Project's" /></span>
+              Selected <span className="font-doto font-black"><ScrambleText text="Projects" /></span>
             </span>
           </motion.h2>
 

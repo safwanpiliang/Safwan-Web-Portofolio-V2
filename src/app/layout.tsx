@@ -26,6 +26,8 @@ const jaro = Jaro({
 });
 
 export const metadata: Metadata = {
+  // Resolves relative Open Graph image paths (case study covers) to absolute URLs.
+  metadataBase: new URL("https://safwan.id"),
   title: "Safwan Piliang - Portfolio",
   description: "Portfolio of Safwan Piliang",
 };
@@ -43,6 +45,8 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col font-inter">
         <MotionProvider>
           <LoadingScreen />
+          {/* Page progress, like a file loading bar (CSS scroll timeline, see globals.css) */}
+          <div aria-hidden className="scroll-progress fixed inset-x-0 top-0 z-[60] h-0.5 bg-selection" />
           {children}
         </MotionProvider>
       </body>

@@ -11,10 +11,25 @@
   --color-sky: #28a6ff;
   --color-ink: #333333;
   --color-card: #f9fafb;
+
+  /* V3 "Canvas" concept: the page reads like an open Figma file. */
+  --color-canvas: #f5f5f5;
+  --color-canvas-dot: #d4d4d4;
+  --color-selection: #0d99ff;
+  --color-panel: #ffffff;
+  --color-panel-border: #e6e6e6;
+
+  /* Strong ease-out for entrances (Emil Kowalski's curve); usable as ease-(--ease-out). */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Room kept free at the bottom of the page for the floating toolbar (Navbar). */
+:root {
+  --toolbar-space: 6rem;
 }
 
 @theme inline {
-  --color-background: var(--color-slate-100);
+  --color-background: var(--color-canvas);
   --color-foreground: var(--color-slate-900);
   --font-inter: var(--font-inter), sans-serif;
   --font-montserrat: var(--font-montserrat), sans-serif;
@@ -39,6 +54,19 @@ body {
 }
 
 @layer utilities {
+  /* Figma-style dotted canvas behind every section after the hero. */
+  .canvas-grid {
+    background-color: var(--color-canvas);
+    background-image: radial-gradient(var(--color-canvas-dot) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .animate-fade-in {
+    animation: fade-in 0.25s ease-out both;
+  }
+  .animate-load-bar {
+    animation: load-bar 1.8s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+    transform-origin: left;
+  }
   .animate-marquee-left {
     animation: marquee-left 40s linear infinite;
     will-change: transform;
@@ -84,6 +112,158 @@ body {
   100% { transform: translate3d(0, 360px, 0); }
 }
 
+/* ───────── Scroll-driven motion (V3) ─────────
+ * All of it is CSS scroll/view timelines: runs on the compositor, no JS per frame.
+ * Without support (Firefox, Safari < 26) or with reduced motion, everything below is skipped
+ * and the page shows its final, static state. */
+@supports ((animation-timeline: view()) and (animation-range: entry)) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Thin file-loading bar at the top that tracks page progress. */
+    .scroll-progress {
+      animation: grow-x linear both;
+      animation-timeline: scroll(root);
+    }
+
+    /* Masked line reveal for headings: the inner span slides up out of its clip.
+     * The timeline lives on the (untransformed) mask so the moving text can't skew it. */
+    .reveal-mask {
+      view-timeline: --mask block;
+    }
+    .reveal-mask > span {
+      animation: mask-up linear both;
+      animation-timeline: --mask;
+      animation-range: entry calc(10% + var(--i, 0) * 8%) entry calc(90% + var(--i, 0) * 8%);
+    }
+
+
+    /* Words of a paragraph brighten line by line as they reach the reading zone. */
+    .scrub-word {
+      animation: word-light linear both;
+      animation-timeline: view();
+      animation-range: cover 15% cover 40%;
+    }
+
+    /* Big text band that slides sideways with the scroll. */
+    .slide-band {
+      animation: slide-band linear both;
+      animation-timeline: --band;
+      animation-range: cover 0% cover 100%;
+    }
+    .slide-band-reverse {
+      animation: slide-band-reverse linear both;
+      animation-timeline: --band;
+      animation-range: cover 0% cover 100%;
+    }
+    .band-track {
+      view-timeline: --band block;
+    }
+
+    /* Journal: article pages start as one pile in the middle and fan out to their columns,
+     * tilting like paper laid on a desk. Phones (one column) just lift each page in. */
+    .journal-track {
+      view-timeline: --journal block;
+    }
+    .paper-fan-left,
+    .paper-fan-right {
+      animation: paper-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+    @media (min-width: 768px) {
+      .paper-fan-left,
+      .paper-fan-right {
+        animation-timeline: --journal;
+        animation-range: cover 0% cover 45%;
+      }
+      .paper-fan-left {
+        animation-name: fan-left;
+      }
+      .paper-fan-right {
+        animation-name: fan-right;
+      }
+    }
+
+    /* Ink rule under a page's header draws across as the page arrives. */
+    .ink-draw {
+      animation: grow-x linear both;
+      animation-timeline: view();
+      animation-range: entry 40% cover 40%;
+    }
+  }
+}
+
+/* Clip for .reveal-mask; harmless when the animation is off. */
+.reveal-mask {
+  display: inline-block;
+  overflow: clip;
+  vertical-align: bottom;
+  padding-bottom: 0.08em;
+}
+.reveal-mask > span {
+  display: inline-block;
+}
+
+.scroll-progress {
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+@keyframes grow-x {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes mask-up {
+  from { transform: translate3d(0, 105%, 0); }
+  to { transform: none; }
+}
+@keyframes word-light {
+  from { opacity: 0.18; }
+  to { opacity: 1; }
+}
+@keyframes paper-in {
+  from { opacity: 0; transform: translate3d(0, 48px, 0) rotate(-3deg); }
+  to { opacity: 1; transform: rotate(-1deg); }
+}
+@keyframes fan-left {
+  from { transform: translate3d(calc(50% + 1.5rem), 24px, 0) rotate(3deg); }
+  to { transform: rotate(-2.5deg); }
+}
+@keyframes fan-right {
+  from { transform: translate3d(calc(-50% - 1.5rem), 0, 0) rotate(-4deg); }
+  to { transform: translate3d(0, 24px, 0) rotate(2deg); }
+}
+@keyframes slide-band-reverse {
+  from { transform: translate3d(-35%, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+@keyframes slide-band {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-35%, 0, 0); }
+}
+
+/* Scroll reveal for V3 sections: fades and lifts in as the element enters the viewport.
+ * CSS view timeline, so no JS. Without support (older Safari) or with reduced motion the
+ * element is simply shown. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal-on-view {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}
+
+@keyframes reveal-up {
+  from { opacity: 0; transform: translate3d(0, 24px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 /* One-shot "fade + slide up" reveal, toggled by data-revealed (see TiltCard).
  * A CSS transition on opacity/transform is composited, so no per-frame JS or repaint. */
 .reveal {
@@ -102,12 +282,18 @@ body {
     transform: none;
   }
 
+  .animate-fade-in,
   .animate-marquee-left,
   .animate-marquee-right,
   .animate-float-up,
   .animate-float-down {
     animation: none;
   }
+}
+
+@keyframes load-bar {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
 
 @keyframes marquee-left {

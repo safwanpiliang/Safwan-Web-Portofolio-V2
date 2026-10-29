@@ -2,10 +2,13 @@ import Image from "next/image";
 import { ClientLogos } from "./ClientLogos";
 import { HeroContent } from "./HeroContent";
 
-/** `parallax-hero` (globals.css) lets the hero lag behind on desktop so the next section slides over it. */
+/**
+ * `parallax-hero` (globals.css) lets the hero lag behind on desktop so the next section slides over it.
+ * On phones the hero ends just above the floating bottom toolbar, so the toolbar never covers the logos.
+ */
 export function HeroSection() {
   return (
-    <div id="hero" className="parallax-hero w-full flex flex-col justify-between md:justify-start min-h-[100svh] md:min-h-0 items-center bg-gradient-to-b from-sky from-[20%] md:from-[5%] to-blue-50 relative z-0">
+    <div id="hero" className="parallax-hero w-full flex flex-col justify-between md:justify-start min-h-[calc(100svh-var(--toolbar-space))] md:min-h-0 items-center bg-gradient-to-b from-sky from-[20%] md:from-[5%] to-blue-50 relative z-0">
       <HeroContent />
 
       <div className="w-full relative -mt-10 z-10 flex flex-col justify-end">

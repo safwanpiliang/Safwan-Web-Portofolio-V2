@@ -1,12 +1,25 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { TypewriterText } from "@/components/effects/TypewriterText";
-import { SOCIAL_LINKS } from "@/data/site";
 import { IdCard3D } from "./IdCard3D";
 
 const TITLE_WORDS = ["You?", "Me?"];
+
+/** Bio as [text, bold] runs, split into words for the scroll highlight. */
+const BIO: [string, boolean][] = [
+  ["\u201cHi, I\u2019m ", false],
+  ["Safwan Piliang", true],
+  [" the person behind the projects above. As a freelance multidisciplinary designer and tech student at UGM, my work is driven by a simple idea: see the world through my eyes. I specialize in ", false],
+  ["Graphic Design", true],
+  [", ", false],
+  ["UI-focused Product Design", true],
+  [", and ", false],
+  ["3D Modeling", true],
+  [" using Blender, focusing on ", false],
+  ["crafting visually engaging and user-friendly digital spaces", true],
+  [". Let\u2019s collaborate and bring your ideas to life!\u201d", false],
+];
 
 export function About() {
   return (
@@ -32,45 +45,22 @@ export function About() {
             </span>
           </motion.h2>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-            className="font-montserrat font-medium text-[13px] sm:text-[16px] md:text-[18px] lg:text-[20px] text-slate-700 leading-[22px] sm:leading-[26px] md:leading-[32px] text-center md:text-left tracking-[0.15px]"
-          >
-            &quot;Hi, I’m <span className="font-bold">Safwan Piliang</span> the person behind the projects above. As a freelance multidisciplinary designer and tech student at UGM, my work is driven by a simple idea: see the world through my eyes. I specialize in <span className="font-bold">Graphic Design</span>, <span className="font-bold">UI-focused Product Design</span>, and <span className="font-bold">3D Modeling</span> using Blender, focusing on <span className="font-bold">crafting visually engaging and user-friendly digital spaces</span>. Let&apos;s collaborate and bring your ideas to life!&quot;
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
-            className="flex flex-col items-center md:items-start gap-3 sm:gap-6 mt-2 sm:mt-4 w-full"
-          >
-            <h3 className="font-montserrat font-bold text-[14px] sm:text-[18px] md:text-[20px] leading-[24px] sm:leading-[32px] tracking-[0.15px] text-slate-700 text-center md:text-left">Social Links:</h3>
-
-            <div className="grid grid-cols-2 gap-y-3 sm:gap-y-6 gap-x-4 sm:gap-x-12 md:gap-x-16 w-full">
-              {SOCIAL_LINKS.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 sm:gap-3 md:gap-4 group justify-center md:justify-start"
-                >
-                  <span className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center shrink-0">
-                    <Image src={link.icon} alt="" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8 object-contain" />
+          {/* Words brighten line by line as the bio scrolls into the reading zone (.scrub-word) */}
+          <p className="font-montserrat font-medium text-[13px] sm:text-[16px] md:text-[18px] lg:text-[20px] text-slate-700 leading-[22px] sm:leading-[26px] md:leading-[32px] text-center md:text-left tracking-[0.15px]">
+            {BIO.flatMap(([text, bold], i) =>
+              // Words are inline-block so each gets its own view timeline (inline spans share the
+              // paragraph's); spaces stay plain text so lines still wrap normally.
+              text.split(/( )/).filter(Boolean).map((token, j) =>
+                token === " " ? (
+                  " "
+                ) : (
+                  <span key={`${i}-${j}`} className={`scrub-word inline-block${bold ? " font-bold" : ""}`}>
+                    {token}
                   </span>
-                  <span className="relative font-inter font-normal text-[11px] sm:text-[14px] md:text-[16px] text-slate-700 group-hover:text-slate-600 transition-colors break-all sm:break-normal">
-                    {link.label}
-                    <span className="absolute left-0 -bottom-0.5 w-0 h-[1.5px] bg-slate-600 transition-all duration-300 ease-out group-hover:w-full" />
-                  </span>
-                </a>
-              ))}
-            </div>
-          </motion.div>
+                )
+              )
+            )}
+          </p>
         </div>
 
         <IdCard3D />
