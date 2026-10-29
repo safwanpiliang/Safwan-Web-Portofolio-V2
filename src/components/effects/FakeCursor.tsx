@@ -19,6 +19,10 @@ const useIsDesktop = () =>
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// A full transform string (not x/y) lets Motion hand the move to the compositor, so the
+// endlessly wandering cursors stay smooth while the page is busy.
+const at = (x: number, y: number) => `translate3d(${x}px, ${y}px, 0)`;
+
 /** Resolves immediately if the tab is visible, otherwise once it becomes visible again. */
 const whenVisible = () =>
   new Promise<void>((resolve) => {
@@ -47,7 +51,7 @@ export function FakeCursor({ cursorImage, cursorArrowImage, messages, themeColor
     let currentY = window.innerHeight / 2 + (Math.random() - 0.5) * 400;
 
     const run = async () => {
-      await controls.set({ x: currentX, y: currentY, opacity: 0 });
+      await controls.set({ transform: at(currentX, currentY), opacity: 0 });
       if (initialDelay > 0) await sleep(initialDelay);
       if (!active) return;
 
@@ -66,8 +70,7 @@ export function FakeCursor({ cursorImage, cursorArrowImage, messages, themeColor
         const midY = (currentY + nextY) / 2 + (Math.random() - 0.5) * 400;
 
         await controls.start({
-          x: [currentX, midX, nextX],
-          y: [currentY, midY, nextY],
+          transform: [at(currentX, currentY), at(midX, midY), at(nextX, nextY)],
           transition: { duration: 0.8 + Math.random() * 1.2, ease: "easeInOut", times: [0, 0.5, 1] },
         });
         currentX = nextX;

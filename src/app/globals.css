@@ -98,15 +98,6 @@ body {
  * and the page shows its final, static state. */
 @supports ((animation-timeline: view()) and (animation-range: entry)) {
   @media (prefers-reduced-motion: no-preference) {
-    /* Hero: "zoom out" of the frame as you scroll away, like zooming out on a Figma canvas,
-     * while the next section slides over it. */
-    .hero-zoom {
-      animation: hero-zoom linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0 100svh;
-      transform-origin: 50% 0;
-    }
-
     /* Thin file-loading bar at the top that tracks page progress. */
     .scroll-progress {
       animation: grow-x linear both;
@@ -175,9 +166,6 @@ body {
   transform-origin: 0 50%;
 }
 
-@keyframes hero-zoom {
-  to { transform: translate3d(0, 20svh, 0) scale(0.86); opacity: 0.5; }
-}
 @keyframes grow-x {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }

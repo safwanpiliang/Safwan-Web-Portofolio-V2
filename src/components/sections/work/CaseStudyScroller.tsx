@@ -7,6 +7,9 @@ import { useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion"
 import { ArrowUpRight, Frame, Lock } from "lucide-react";
 import { CASE_STUDIES, projectFor } from "@/data/caseStudies";
 
+/** Corner handles of the selected frame. */
+const HANDLES = ["-left-1 -top-1", "-right-1 -top-1", "-left-1 -bottom-1", "-right-1 -bottom-1"];
+
 /** Scroll distance spent on each case study while the section is pinned. */
 const STEP_SVH = 45;
 
@@ -122,7 +125,7 @@ export function CaseStudyScroller({ fallback }: { fallback: ReactNode }) {
                   );
                 })}
 
-                {["-left-1 -top-1", "-right-1 -top-1", "-left-1 -bottom-1", "-right-1 -bottom-1"].map((pos) => (
+                {HANDLES.map((pos) => (
                   <span key={pos} aria-hidden className={`absolute z-30 size-2 border border-selection bg-white ${pos}`} />
                 ))}
               </div>
