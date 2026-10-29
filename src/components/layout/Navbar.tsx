@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useMotionValueEvent, useScroll } from "framer-motion";
 import { Frame, History, MessageCircle, MousePointer2, Type, type LucideIcon } from "lucide-react";
-import { NAV_TABS, SITE_LINKS } from "@/data/site";
+import { NAV_TABS } from "@/data/site";
 
 /** Each section is a Figma tool: Move (home), Frame (works), Version history (experience), Text (about). */
 const TAB_ICONS: Record<(typeof NAV_TABS)[number]["id"], LucideIcon> = {
@@ -98,16 +98,15 @@ export function Navbar() {
 
         <span aria-hidden className="mx-1 h-6 w-px bg-panel-border" />
 
-        <a
-          href={SITE_LINKS.instagram}
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          type="button"
+          onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
           aria-label="Let's talk"
           className="flex h-11 min-w-11 items-center justify-center gap-2 rounded-xl bg-brand-orange px-3 font-inter text-[13px] font-semibold text-ink whitespace-nowrap transition-colors duration-150 hover:bg-brand-orange-hover"
         >
           <MessageCircle aria-hidden className="size-[18px] shrink-0" strokeWidth={1.75} />
           <span aria-hidden className="hidden sm:inline">Let&apos;s talk</span>
-        </a>
+        </button>
       </div>
     </nav>
   );
