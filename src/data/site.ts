@@ -11,6 +11,7 @@ export const SITE_LINKS = {
 export const NAV_TABS = [
   { label: "Home", id: "hero" },
   { label: "My Works", id: "work" },
+  { label: "Experience", id: "experience" },
   { label: "About me", id: "about" },
 ] as const;
 
