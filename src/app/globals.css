@@ -148,6 +148,11 @@ body {
       animation-timeline: --band;
       animation-range: cover 0% cover 100%;
     }
+    .slide-band-reverse {
+      animation: slide-band-reverse linear both;
+      animation-timeline: --band;
+      animation-range: cover 0% cover 100%;
+    }
     .band-track {
       view-timeline: --band block;
     }
@@ -188,6 +193,10 @@ body {
 @keyframes word-light {
   from { opacity: 0.18; }
   to { opacity: 1; }
+}
+@keyframes slide-band-reverse {
+  from { transform: translate3d(-35%, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
 }
 @keyframes slide-band {
   from { transform: translate3d(0, 0, 0); }
@@ -267,4 +276,67 @@ body {
 @keyframes float-down {
   0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.3; }
   50% { transform: translate3d(0, 30px, 0); opacity: 0.6; }
+}
+
+/* ───────── Kinetic hero (V3 editorial) ─────────
+ * Letters rise in, inline image chips pop, the underline draws itself. All of it waits while the
+ * intro loader is up: LoadingScreen sets html[data-intro="playing"] and these stay paused. */
+.kinetic-letter {
+  display: inline-block;
+  animation: letter-in 700ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 35ms + var(--d, 0ms));
+}
+.chip-pop {
+  animation: chip-pop 600ms var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
+.scribble-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw-line 900ms var(--ease-out) forwards;
+  animation-delay: var(--d, 0ms);
+}
+html[data-intro="playing"] :is(.kinetic-letter, .chip-pop, .scribble-path) {
+  animation-play-state: paused;
+}
+
+/* Headline words drift apart and tilt as you scroll away from the hero. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .drift {
+      display: inline-block;
+      animation: drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 80svh;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kinetic-letter,
+  .chip-pop {
+    animation: fade-in 0.3s ease-out both;
+  }
+  .chip-pop {
+    transform: rotate(var(--r, 0deg));
+  }
+  .scribble-path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes letter-in {
+  from { opacity: 0; transform: translate3d(0, 0.55em, 0) rotate(10deg); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes chip-pop {
+  from { opacity: 0; transform: scale(0.8) rotate(-20deg); }
+  to { opacity: 1; transform: rotate(var(--r, 0deg)); }
+}
+@keyframes draw-line {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes drift {
+  to { transform: translate3d(var(--dx, 0), 0, 0) rotate(var(--rot, 0deg)); }
 }
