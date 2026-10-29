@@ -11,10 +11,22 @@
   --color-sky: #28a6ff;
   --color-ink: #333333;
   --color-card: #f9fafb;
+
+  /* V3 "Canvas" concept: the page reads like an open Figma file. */
+  --color-canvas: #f5f5f5;
+  --color-canvas-dot: #d4d4d4;
+  --color-selection: #0d99ff;
+  --color-panel: #ffffff;
+  --color-panel-border: #e6e6e6;
+}
+
+/* Room kept free at the bottom of the page for the floating toolbar (Navbar). */
+:root {
+  --toolbar-space: 6rem;
 }
 
 @theme inline {
-  --color-background: var(--color-slate-100);
+  --color-background: var(--color-canvas);
   --color-foreground: var(--color-slate-900);
   --font-inter: var(--font-inter), sans-serif;
   --font-montserrat: var(--font-montserrat), sans-serif;
@@ -39,6 +51,12 @@ body {
 }
 
 @layer utilities {
+  /* Figma-style dotted canvas behind every section after the hero. */
+  .canvas-grid {
+    background-color: var(--color-canvas);
+    background-image: radial-gradient(var(--color-canvas-dot) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
   .animate-marquee-left {
     animation: marquee-left 40s linear infinite;
     will-change: transform;
