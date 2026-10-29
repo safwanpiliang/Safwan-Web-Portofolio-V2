@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Frame, Lock } from "lucide-react";
+import { Reveal } from "@/components/effects/Reveal";
 import { ScrambleText } from "@/components/effects/ScrambleText";
+import { CaseStudyScroller } from "./CaseStudyScroller";
 import { CASE_STUDIES, projectFor, type CaseStudy } from "@/data/caseStudies";
 
 /** Name + period row above a frame, like Figma's frame label on the canvas. */
@@ -70,24 +72,34 @@ function LockedFrame({ study }: { study: CaseStudy }) {
   );
 }
 
+function CaseStudyGrid() {
+  return (
+    <div className="mx-auto grid w-full max-w-[1400px] grid-cols-1 md:grid-cols-2 gap-x-6 lg:gap-x-10 gap-y-10 md:gap-y-14 px-4 sm:px-6">
+      {CASE_STUDIES.map((study) =>
+        study.locked ? <LockedFrame key={study.slug} study={study} /> : <CaseStudyFrame key={study.slug} study={study} />
+      )}
+    </div>
+  );
+}
+
 export function CaseStudies() {
   return (
     <section id="work" className="relative w-full pt-20 sm:pt-40 md:pt-56 pb-8 md:pb-12 flex flex-col items-center">
-      <div className="w-full max-w-[1400px] px-4 sm:px-6 flex flex-col gap-8 md:gap-12">
-        <div className="flex flex-col items-center gap-3 text-center">
-          <h2 className="font-montserrat font-medium text-[32px] md:text-[64px] text-slate-700 tracking-[-1px]">
-            Case <span className="font-doto font-black"><ScrambleText text="Studies" /></span>
-          </h2>
-          <p className="font-inter text-slate-700 text-base md:text-lg max-w-2xl">
-            How I think through a problem, from the brief to the final screens.
-          </p>
-        </div>
+      <div className="mb-8 md:mb-4 flex flex-col items-center gap-3 px-4 text-center">
+        <h2 className="font-montserrat font-medium text-[32px] md:text-[64px] text-slate-700 tracking-[-1px]">
+          <Reveal>Case</Reveal> <Reveal index={1}><span className="font-doto font-black"><ScrambleText text="Studies" /></span></Reveal>
+        </h2>
+        <p className="font-inter text-slate-700 text-base md:text-lg max-w-2xl">
+          <Reveal index={2}>How I think through a problem, from the brief to the final screens.</Reveal>
+        </p>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 lg:gap-x-10 gap-y-10 md:gap-y-14">
-          {CASE_STUDIES.map((study) =>
-            study.locked ? <LockedFrame key={study.slug} study={study} /> : <CaseStudyFrame key={study.slug} study={study} />
-          )}
-        </div>
+      {/* Phones: stacked frames. md+: pinned, scroll-driven presentation (grid again for reduced motion). */}
+      <div className="w-full md:hidden">
+        <CaseStudyGrid />
+      </div>
+      <div className="hidden w-full md:block">
+        <CaseStudyScroller fallback={<CaseStudyGrid />} />
       </div>
     </section>
   );
