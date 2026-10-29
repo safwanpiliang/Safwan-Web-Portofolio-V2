@@ -124,13 +124,6 @@ body {
       animation-range: entry calc(10% + var(--i, 0) * 8%) entry calc(90% + var(--i, 0) * 8%);
     }
 
-    /* Rows that "light up" one after another while you scroll through a list. */
-    .scrub-row {
-      animation: dim-in linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 35%;
-    }
-
     /* Timeline line that draws down as the list scrolls past. */
     .draw-y {
       animation: grow-y linear both;
@@ -191,10 +184,6 @@ body {
 @keyframes mask-up {
   from { transform: translate3d(0, 105%, 0); }
   to { transform: none; }
-}
-@keyframes dim-in {
-  from { opacity: 0.25; transform: translate3d(0, 12px, 0); }
-  to { opacity: 1; transform: none; }
 }
 @keyframes word-light {
   from { opacity: 0.18; }

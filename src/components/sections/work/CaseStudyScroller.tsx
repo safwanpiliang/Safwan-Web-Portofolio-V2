@@ -8,11 +8,12 @@ import { ArrowUpRight, Frame, Lock } from "lucide-react";
 import { CASE_STUDIES, projectFor } from "@/data/caseStudies";
 
 /** Scroll distance spent on each case study while the section is pinned. */
-const STEP_SVH = 70;
+const STEP_SVH = 45;
 
 /**
- * Desktop "prototype presentation": the section pins to the screen and scrolling steps through
- * the case studies. A Figma-like Layers panel shows where you are; the stage swaps the frame.
+ * Desktop "present mode": the section pins to the screen and scrolling steps through the case
+ * studies. Each next frame wipes up over the previous one (clip-path) while its image settles from
+ * a slight zoom. A Figma-like Layers panel tracks the position and jumps on click.
  * Reduced-motion users get `fallback` (the plain grid) instead.
  */
 export function CaseStudyScroller({ fallback }: { fallback: ReactNode }) {
@@ -42,9 +43,9 @@ export function CaseStudyScroller({ fallback }: { fallback: ReactNode }) {
   return (
     <div ref={trackRef} style={{ height: `${count * STEP_SVH + 100}svh` }} className="relative">
       <div className="sticky top-0 flex h-svh items-center pt-6 pb-[var(--toolbar-space)]">
-        <div className="mx-auto grid w-full max-w-[1400px] grid-cols-[260px_minmax(0,1fr)] lg:grid-cols-[300px_minmax(0,1fr)] gap-8 lg:gap-12 px-6">
+        <div className="mx-auto flex h-full w-full max-w-[1600px] items-center gap-6 lg:gap-10 px-6">
           {/* Layers panel */}
-          <div className="flex h-fit flex-col rounded-xl border border-panel-border bg-panel p-2 shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+          <div className="flex w-56 lg:w-64 shrink-0 flex-col rounded-xl border border-panel-border bg-panel p-2 shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
             <div className="flex items-center justify-between px-2 py-1.5 font-inter text-xs">
               <span className="font-semibold text-slate-900">Layers</span>
               <span className="tabular-nums text-slate-500">
@@ -80,61 +81,70 @@ export function CaseStudyScroller({ fallback }: { fallback: ReactNode }) {
             </div>
           </div>
 
-          {/* Stage */}
-          <div className="flex min-w-0 flex-col gap-5">
-            <div className="flex items-center justify-between gap-2 font-inter text-xs text-selection">
-              <span className="flex items-center gap-1">
-                <Frame aria-hidden className="size-3" strokeWidth={2} />
-                {study.title}
-              </span>
-              <span className="tabular-nums text-slate-500">{study.period}</span>
-            </div>
-
-            <div className="relative aspect-[5/4] w-full max-w-[calc(52svh*1.25)] outline outline-1 outline-selection">
-              {CASE_STUDIES.map((s, i) => {
-                const project = projectFor(s);
-                const offset = i - active;
-                return (
-                  <div
-                    key={s.slug}
-                    aria-hidden={i !== active}
-                    className="absolute inset-0 overflow-hidden bg-white transition-[opacity,transform] duration-500 ease-(--ease-out)"
-                    style={{
-                      opacity: offset === 0 ? 1 : 0,
-                      transform: offset === 0 ? "none" : `translate3d(0, ${offset > 0 ? 6 : -6}%, 0) scale(0.97)`,
-                    }}
-                  >
-                    {project ? (
-                      <Image src={project.image} alt={s.title} fill sizes="(min-width: 1024px) 60vw, 70vw" className="object-cover" />
-                    ) : (
-                      <div className="flex h-full flex-col items-center justify-center gap-2 border border-dashed border-slate-300 bg-panel text-slate-500">
-                        <Lock aria-hidden className="size-6" strokeWidth={1.75} />
-                        <p className="font-inter text-sm">Case study coming soon</p>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-              {["-left-1 -top-1", "-right-1 -top-1", "-left-1 -bottom-1", "-right-1 -bottom-1"].map((pos) => (
-                <span key={pos} aria-hidden className={`absolute z-10 size-2 border border-selection bg-white ${pos}`} />
-              ))}
-            </div>
-
-            <div key={study.slug} className="animate-fade-in flex max-w-[calc(52svh*1.25)] items-start justify-between gap-6">
-              <div className="min-w-0">
-                <h3 className="font-montserrat text-2xl lg:text-3xl font-semibold text-slate-800">{study.title}</h3>
-                <p className="mt-1 font-inter text-base text-slate-600">{study.tagline}</p>
-                <p className="mt-2 font-inter text-xs text-slate-500">{study.role}</p>
+          {/* Stage: as large as the screen allows (5:4 covers, so height drives the width) */}
+          <div className="flex h-full min-w-0 flex-1 flex-col justify-center">
+            <div className="mx-auto flex w-full max-w-[calc((100svh-15rem)*1.25)] flex-col">
+              <div className="flex items-center justify-between gap-2 pb-1.5 font-inter text-xs">
+                <span className="flex items-center gap-1 text-selection">
+                  <Frame aria-hidden className="size-3" strokeWidth={2} />
+                  {study.title}
+                </span>
+                <span className="tabular-nums text-slate-500">{study.period}</span>
               </div>
-              {!study.locked && (
-                <Link
-                  href={`/work/${study.slug}`}
-                  className="flex h-11 shrink-0 items-center gap-2 rounded-xl bg-selection px-4 font-inter text-sm font-semibold text-white transition-colors hover:bg-selection/90"
-                >
-                  Read case study
-                  <ArrowUpRight aria-hidden className="size-4" />
-                </Link>
-              )}
+
+              <div className="relative aspect-[5/4] w-full outline outline-1 outline-selection">
+                {CASE_STUDIES.map((s, i) => {
+                  const project = projectFor(s);
+                  const shown = i <= active;
+                  return (
+                    <div
+                      key={s.slug}
+                      aria-hidden={i !== active}
+                      className="absolute inset-0 overflow-hidden bg-white transition-[clip-path] duration-700 ease-(--ease-out)"
+                      style={{ zIndex: i, clipPath: shown ? "inset(0 0 0 0)" : "inset(100% 0 0 0)" }}
+                    >
+                      {project ? (
+                        <Image
+                          src={project.image}
+                          alt={s.title}
+                          fill
+                          sizes="(min-width: 1280px) 60vw, 75vw"
+                          className="object-cover transition-transform duration-1000 ease-(--ease-out)"
+                          style={{ transform: i === active ? "none" : "scale(1.08)" }}
+                        />
+                      ) : (
+                        <div className="flex h-full flex-col items-center justify-center gap-2 border border-dashed border-slate-300 bg-panel text-slate-500">
+                          <Lock aria-hidden className="size-7" strokeWidth={1.75} />
+                          <p className="font-inter text-sm">Case study coming soon</p>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+
+                {["-left-1 -top-1", "-right-1 -top-1", "-left-1 -bottom-1", "-right-1 -bottom-1"].map((pos) => (
+                  <span key={pos} aria-hidden className={`absolute z-30 size-2 border border-selection bg-white ${pos}`} />
+                ))}
+              </div>
+
+              {/* Caption below the frame (covers carry their own text); re-keyed to fade in per study */}
+              <div key={study.slug} className="animate-fade-in mt-4 flex items-start justify-between gap-6">
+                <div className="min-w-0">
+                  <h3 className="font-montserrat text-2xl lg:text-3xl font-semibold text-slate-800">{study.title}</h3>
+                  <p className="mt-1 font-inter text-sm lg:text-base text-slate-600">
+                    {study.tagline} <span className="text-slate-400">· {study.role}</span>
+                  </p>
+                </div>
+                {!study.locked && (
+                  <Link
+                    href={`/work/${study.slug}`}
+                    className="flex h-11 shrink-0 items-center gap-2 rounded-xl bg-selection px-4 font-inter text-sm font-semibold text-white transition-colors hover:bg-selection/90"
+                  >
+                    Read case study
+                    <ArrowUpRight aria-hidden className="size-4" />
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
         </div>
