@@ -87,7 +87,7 @@ export function HeroContent() {
             icon={ChevronDown}
             animated
             className="w-full md:w-auto"
-            onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() => document.getElementById("work")?.scrollIntoView({ behavior: "smooth" })}
           >
             Explore My Work
           </Button>

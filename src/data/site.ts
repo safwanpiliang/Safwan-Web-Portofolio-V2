@@ -10,7 +10,7 @@ export const SITE_LINKS = {
 
 export const NAV_TABS = [
   { label: "Home", id: "hero" },
-  { label: "My Works", id: "projects" },
+  { label: "My Works", id: "work" },
   { label: "About me", id: "about" },
 ] as const;
 

@@ -1,9 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { CARD_GRID_IMAGE_SIZES, TiltCard } from "@/components/ui/TiltCard";
+import { caseStudyHref } from "@/data/caseStudies";
 import type { Project } from "@/data/projects";
 
 const ICON_LINKS = [
@@ -18,10 +20,13 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, index }: ProjectCardProps) {
+  const studyHref = caseStudyHref(project.id);
   return (
     <TiltCard revealDelay={(index % 3) * 0.1}>
-      {/* The whole card opens the Behance case study */}
-      {project.behance && (
+      {/* The whole card opens the on-site case study when there is one, otherwise Behance */}
+      {studyHref ? (
+        <Link href={studyHref} className="absolute inset-0 z-[5]" aria-label={`Read the ${project.title} case study`} />
+      ) : project.behance && (
         <a
           href={project.behance}
           target="_blank"
