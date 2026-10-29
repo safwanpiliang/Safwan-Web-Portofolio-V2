@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ArrowUpRight, Mail } from "lucide-react";
+import { Reveal } from "@/components/effects/Reveal";
 import { ScrambleText } from "@/components/effects/ScrambleText";
 import { SITE_LINKS, SOCIAL_LINKS, STATUS } from "@/data/site";
 
@@ -7,8 +8,19 @@ import { SITE_LINKS, SOCIAL_LINKS, STATUS } from "@/data/site";
 export function Contact() {
   return (
     <section id="contact" className="relative w-full px-4 sm:px-6 py-12 md:py-24 flex flex-col items-center gap-8 md:gap-12">
+      {/* Oversized band that slides sideways with the scroll (.slide-band) */}
+      <div aria-hidden className="band-track -mx-4 sm:-mx-6 self-stretch overflow-clip">
+        <p className="slide-band whitespace-nowrap font-montserrat text-[64px] md:text-[144px] font-bold leading-none tracking-[-2px] text-slate-200">
+          {Array.from({ length: 3 }, (_, i) => (
+            <span key={i}>
+              Let&apos;s talk <span className="text-selection">✳</span> Open for an internship <span className="text-brand-orange">✳</span>{" "}
+            </span>
+          ))}
+        </p>
+      </div>
+
       <h2 className="font-montserrat font-medium text-[32px] md:text-[64px] text-slate-700 tracking-[-1px] text-center">
-        Let&apos;s <span className="font-doto font-black"><ScrambleText text="Talk" /></span>
+        <Reveal>Let&apos;s</Reveal> <Reveal index={1}><span className="font-doto font-black"><ScrambleText text="Talk" /></span></Reveal>
       </h2>
 
       <div className="reveal-on-view flex w-full max-w-xl items-start gap-3">

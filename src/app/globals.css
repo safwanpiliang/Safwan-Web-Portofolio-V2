@@ -18,6 +18,9 @@
   --color-selection: #0d99ff;
   --color-panel: #ffffff;
   --color-panel-border: #e6e6e6;
+
+  /* Strong ease-out for entrances (Emil Kowalski's curve); usable as ease-(--ease-out). */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* Room kept free at the bottom of the page for the floating toolbar (Navbar). */
@@ -89,18 +92,117 @@ body {
   overflow: clip;
 }
 
-/* Hero parallax, desktop only: still until 50vh of scroll, then eases down
- * 0 → 40px (next 200px of scroll) → 360px (next 800px), so the next section slides over it.
- * Pure CSS scroll-driven animation (runs on the compositor). Browsers without support,
- * phones, and reduced-motion users simply get a normal, static hero. */
+/* ───────── Scroll-driven motion (V3) ─────────
+ * All of it is CSS scroll/view timelines: runs on the compositor, no JS per frame.
+ * Without support (Firefox, Safari < 26) or with reduced motion, everything below is skipped
+ * and the page shows its final, static state. */
 @supports ((animation-timeline: view()) and (animation-range: entry)) {
-  @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
-    .parallax-hero {
-      animation: parallax-hero linear both;
+  @media (prefers-reduced-motion: no-preference) {
+    /* Hero: "zoom out" of the frame as you scroll away, like zooming out on a Figma canvas,
+     * while the next section slides over it. */
+    .hero-zoom {
+      animation: hero-zoom linear both;
       animation-timeline: scroll(root);
-      animation-range: 50vh calc(50vh + 1000px);
+      animation-range: 0 100svh;
+      transform-origin: 50% 0;
+    }
+
+    /* Thin file-loading bar at the top that tracks page progress. */
+    .scroll-progress {
+      animation: grow-x linear both;
+      animation-timeline: scroll(root);
+    }
+
+    /* Masked line reveal for headings: the inner span slides up out of its clip.
+     * The timeline lives on the (untransformed) mask so the moving text can't skew it. */
+    .reveal-mask {
+      view-timeline: --mask block;
+    }
+    .reveal-mask > span {
+      animation: mask-up linear both;
+      animation-timeline: --mask;
+      animation-range: entry calc(10% + var(--i, 0) * 8%) entry calc(90% + var(--i, 0) * 8%);
+    }
+
+    /* Rows that "light up" one after another while you scroll through a list. */
+    .scrub-row {
+      animation: dim-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+
+    /* Timeline line that draws down as the list scrolls past. */
+    .draw-y {
+      animation: grow-y linear both;
+      animation-timeline: --history;
+      animation-range: cover 20% cover 80%;
+      transform-origin: 50% 0;
+    }
+    .history-track {
+      view-timeline: --history block;
+    }
+
+    /* Words of a paragraph brighten line by line as they reach the reading zone. */
+    .scrub-word {
+      animation: word-light linear both;
+      animation-timeline: view();
+      animation-range: cover 15% cover 40%;
+    }
+
+    /* Big text band that slides sideways with the scroll. */
+    .slide-band {
+      animation: slide-band linear both;
+      animation-timeline: --band;
+      animation-range: cover 0% cover 100%;
+    }
+    .band-track {
+      view-timeline: --band block;
     }
   }
+}
+
+/* Clip for .reveal-mask; harmless when the animation is off. */
+.reveal-mask {
+  display: inline-block;
+  overflow: clip;
+  vertical-align: bottom;
+  padding-bottom: 0.08em;
+}
+.reveal-mask > span {
+  display: inline-block;
+}
+
+.scroll-progress {
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+@keyframes hero-zoom {
+  to { transform: translate3d(0, 20svh, 0) scale(0.86); opacity: 0.5; }
+}
+@keyframes grow-x {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes grow-y {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+@keyframes mask-up {
+  from { transform: translate3d(0, 105%, 0); }
+  to { transform: none; }
+}
+@keyframes dim-in {
+  from { opacity: 0.25; transform: translate3d(0, 12px, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes word-light {
+  from { opacity: 0.18; }
+  to { opacity: 1; }
+}
+@keyframes slide-band {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-35%, 0, 0); }
 }
 
 /* Scroll reveal for V3 sections: fades and lifts in as the element enters the viewport.
@@ -124,12 +226,6 @@ body {
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
-}
-
-@keyframes parallax-hero {
-  0% { transform: translate3d(0, 0, 0); }
-  20% { transform: translate3d(0, 40px, 0); }
-  100% { transform: translate3d(0, 360px, 0); }
 }
 
 /* One-shot "fade + slide up" reveal, toggled by data-revealed (see TiltCard).

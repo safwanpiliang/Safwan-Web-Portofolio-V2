@@ -7,6 +7,21 @@ import { IdCard3D } from "./IdCard3D";
 
 const TITLE_WORDS = ["You?", "Me?"];
 
+/** Bio as [text, bold] runs, split into words for the scroll highlight. */
+const BIO: [string, boolean][] = [
+  ["\u201cHi, I\u2019m ", false],
+  ["Safwan Piliang", true],
+  [" the person behind the projects above. As a freelance multidisciplinary designer and tech student at UGM, my work is driven by a simple idea: see the world through my eyes. I specialize in ", false],
+  ["Graphic Design", true],
+  [", ", false],
+  ["UI-focused Product Design", true],
+  [", and ", false],
+  ["3D Modeling", true],
+  [" using Blender, focusing on ", false],
+  ["crafting visually engaging and user-friendly digital spaces", true],
+  [". Let\u2019s collaborate and bring your ideas to life!\u201d", false],
+];
+
 export function About() {
   return (
     <section id="about" className="relative w-full py-10 sm:py-16 md:py-32 px-4 sm:px-6 md:px-8 flex justify-center">
@@ -31,15 +46,22 @@ export function About() {
             </span>
           </motion.h2>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-            className="font-montserrat font-medium text-[13px] sm:text-[16px] md:text-[18px] lg:text-[20px] text-slate-700 leading-[22px] sm:leading-[26px] md:leading-[32px] text-center md:text-left tracking-[0.15px]"
-          >
-            &quot;Hi, I’m <span className="font-bold">Safwan Piliang</span> the person behind the projects above. As a freelance multidisciplinary designer and tech student at UGM, my work is driven by a simple idea: see the world through my eyes. I specialize in <span className="font-bold">Graphic Design</span>, <span className="font-bold">UI-focused Product Design</span>, and <span className="font-bold">3D Modeling</span> using Blender, focusing on <span className="font-bold">crafting visually engaging and user-friendly digital spaces</span>. Let&apos;s collaborate and bring your ideas to life!&quot;
-          </motion.p>
+          {/* Words brighten line by line as the bio scrolls into the reading zone (.scrub-word) */}
+          <p className="font-montserrat font-medium text-[13px] sm:text-[16px] md:text-[18px] lg:text-[20px] text-slate-700 leading-[22px] sm:leading-[26px] md:leading-[32px] text-center md:text-left tracking-[0.15px]">
+            {BIO.flatMap(([text, bold], i) =>
+              // Words are inline-block so each gets its own view timeline (inline spans share the
+              // paragraph's); spaces stay plain text so lines still wrap normally.
+              text.split(/( )/).filter(Boolean).map((token, j) =>
+                token === " " ? (
+                  " "
+                ) : (
+                  <span key={`${i}-${j}`} className={`scrub-word inline-block${bold ? " font-bold" : ""}`}>
+                    {token}
+                  </span>
+                )
+              )
+            )}
+          </p>
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}

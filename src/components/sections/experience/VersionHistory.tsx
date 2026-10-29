@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { CountUp } from "@/components/effects/CountUp";
+import { Reveal } from "@/components/effects/Reveal";
 import { ScrambleText } from "@/components/effects/ScrambleText";
 import { ARTICLES } from "@/data/articles";
 import { CASE_STUDIES } from "@/data/caseStudies";
@@ -29,21 +31,25 @@ export function VersionHistory() {
       <div className="w-full max-w-[1400px] px-4 sm:px-6 flex flex-col items-center gap-8 md:gap-12">
         <div className="flex flex-col items-center gap-3 text-center">
           <h2 className="font-montserrat font-medium text-[32px] md:text-[64px] text-slate-700 tracking-[-1px]">
-            Version <span className="font-doto font-black"><ScrambleText text="History" /></span>
+            <Reveal>Version</Reveal> <Reveal index={1}><span className="font-doto font-black"><ScrambleText text="History" /></span></Reveal>
           </h2>
-          <p className="font-inter text-slate-700 text-base md:text-lg max-w-2xl">Every role so far, newest first.</p>
+          <p className="font-inter text-slate-700 text-base md:text-lg max-w-2xl">
+            <Reveal index={2}>Every role so far, newest first.</Reveal>
+          </p>
         </div>
 
         <dl className="grid w-full max-w-3xl grid-cols-2 md:grid-cols-4 gap-3">
           {STATS.map((s) => (
             <div key={s.label} className="reveal-on-view flex flex-col-reverse gap-1 rounded-xl border border-panel-border bg-panel p-4">
               <dt className="font-inter text-xs text-slate-500">{s.label}</dt>
-              <dd className="font-doto text-3xl md:text-4xl font-black text-slate-800 tabular-nums">{s.value}</dd>
+              <dd className="font-doto text-3xl md:text-4xl font-black text-slate-800 tabular-nums">
+                <CountUp value={s.value} />
+              </dd>
             </div>
           ))}
         </dl>
 
-        <div className="reveal-on-view w-full max-w-3xl overflow-hidden rounded-xl border border-panel-border bg-panel">
+        <div className="w-full max-w-3xl overflow-hidden rounded-xl border border-panel-border bg-panel">
           <div className="flex flex-wrap gap-1.5 border-b border-panel-border p-2">
             {FILTERS.map((f) => (
               <button
@@ -60,13 +66,16 @@ export function VersionHistory() {
             ))}
           </div>
 
-          {/* Keyed on the filter so the list re-mounts and fades in on every change */}
-          <ol key={group} className="animate-fade-in">
+          {/* Keyed on the filter so the list re-mounts and fades in on every change.
+              The blue line draws down and rows light up as the list scrolls through. */}
+          <ol key={group} className="history-track animate-fade-in relative">
+            <span aria-hidden className="absolute left-[21px] top-5 bottom-5 w-px bg-slate-200" />
+            <span aria-hidden className="draw-y absolute left-[21px] top-5 bottom-5 w-px bg-selection" />
             {rows.map((e) => (
-              <li key={`${e.org}-${e.role}`} className="flex gap-3 border-t border-panel-border px-4 py-3 first:border-t-0">
+              <li key={`${e.org}-${e.role}`} className="scrub-row relative flex gap-3 border-t border-panel-border px-4 py-3 first-of-type:border-t-0">
                 <span
                   aria-hidden
-                  className={`mt-1.5 size-2.5 shrink-0 rounded-full ${e.current ? "bg-selection ring-4 ring-selection/15" : "bg-slate-300"}`}
+                  className={`relative mt-1.5 size-2.5 shrink-0 rounded-full ${e.current ? "bg-selection ring-4 ring-selection/15" : "bg-slate-300"}`}
                 />
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
