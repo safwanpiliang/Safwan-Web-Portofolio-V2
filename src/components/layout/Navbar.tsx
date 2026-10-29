@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useMotionValueEvent, useScroll } from "framer-motion";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { Frame, History, MessageCircle, MousePointer2, Type, type LucideIcon } from "lucide-react";
 import { NAV_TABS } from "@/data/site";
 
@@ -84,12 +84,20 @@ export function Navbar() {
               onClick={() => handleTabClick(i)}
               aria-label={tab.label}
               aria-current={isActive ? "true" : undefined}
-              className={`flex h-11 min-w-11 items-center justify-center gap-2 rounded-xl px-3 font-inter text-[13px] font-medium whitespace-nowrap transition-colors duration-150 ${
-                isActive ? "bg-selection text-white" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+              className={`relative flex h-11 min-w-11 items-center justify-center gap-2 rounded-xl px-3 font-inter text-[13px] font-medium whitespace-nowrap transition-colors duration-150 ${
+                isActive ? "text-white" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
               }`}
             >
-              <Icon aria-hidden className="size-[18px] shrink-0" strokeWidth={1.75} />
-              <span aria-hidden className={isActive ? "inline" : "hidden sm:inline"}>
+              {/* One shared highlight that slides between tabs, like Figma's active tool */}
+              {isActive && (
+                <motion.span
+                  layoutId="toolbar-active"
+                  transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                  className="absolute inset-0 rounded-xl bg-selection"
+                />
+              )}
+              <Icon aria-hidden className="relative size-[18px] shrink-0" strokeWidth={1.75} />
+              <span aria-hidden className={`relative ${isActive ? "inline" : "hidden sm:inline"}`}>
                 {tab.label}
               </span>
             </button>

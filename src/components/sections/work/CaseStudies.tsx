@@ -31,7 +31,7 @@ function StudyText({ study }: { study: CaseStudy }) {
 function CaseStudyFrame({ study }: { study: CaseStudy }) {
   const project = projectFor(study);
   return (
-    <Link href={`/work/${study.slug}`} className="group block rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-selection">
+    <Link href={`/work/${study.slug}`} className="reveal-on-view group block rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-selection">
       <FrameLabel study={study} />
       <div className="relative aspect-[5/4] overflow-hidden bg-white outline outline-1 outline-transparent transition-[outline-color] duration-200 group-hover:outline-selection">
         {project && (
@@ -57,7 +57,7 @@ function CaseStudyFrame({ study }: { study: CaseStudy }) {
 /** Client work waiting for publication permission: visible, but without details or a page. */
 function LockedFrame({ study }: { study: CaseStudy }) {
   return (
-    <div>
+    <div className="reveal-on-view">
       <FrameLabel study={study} locked />
       <div className="flex aspect-[5/4] flex-col items-center justify-center gap-2 border border-dashed border-slate-300 bg-panel/60 text-slate-500">
         <Lock aria-hidden className="size-5" strokeWidth={1.75} />

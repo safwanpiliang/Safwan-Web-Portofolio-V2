@@ -11,7 +11,7 @@ export function Contact() {
         Let&apos;s <span className="font-doto font-black"><ScrambleText text="Talk" /></span>
       </h2>
 
-      <div className="flex w-full max-w-xl items-start gap-3">
+      <div className="reveal-on-view flex w-full max-w-xl items-start gap-3">
         {/* Comment pin */}
         <span aria-hidden className="flex size-10 shrink-0 items-center justify-center rounded-full rounded-bl-none bg-selection font-inter text-sm font-semibold text-white shadow-md">
           SP

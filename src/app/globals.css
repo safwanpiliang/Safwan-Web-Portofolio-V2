@@ -57,6 +57,9 @@ body {
     background-image: radial-gradient(var(--color-canvas-dot) 1px, transparent 1px);
     background-size: 24px 24px;
   }
+  .animate-fade-in {
+    animation: fade-in 0.25s ease-out both;
+  }
   .animate-load-bar {
     animation: load-bar 1.8s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
     transform-origin: left;
@@ -100,6 +103,29 @@ body {
   }
 }
 
+/* Scroll reveal for V3 sections: fades and lifts in as the element enters the viewport.
+ * CSS view timeline, so no JS. Without support (older Safari) or with reduced motion the
+ * element is simply shown. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal-on-view {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}
+
+@keyframes reveal-up {
+  from { opacity: 0; transform: translate3d(0, 24px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 @keyframes parallax-hero {
   0% { transform: translate3d(0, 0, 0); }
   20% { transform: translate3d(0, 40px, 0); }
@@ -124,6 +150,7 @@ body {
     transform: none;
   }
 
+  .animate-fade-in,
   .animate-marquee-left,
   .animate-marquee-right,
   .animate-float-up,
