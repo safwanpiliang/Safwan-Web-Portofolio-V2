@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/effects/Reveal";
+import { ScrambleText } from "@/components/effects/ScrambleText";
 import { ARTICLES } from "@/data/articles";
 import { ArticleCard } from "./ArticleCard";
 
@@ -17,15 +18,16 @@ export function Articles() {
             <span>The Safwan Journal · Vol. 01</span>
             <span className="h-px flex-1 bg-slate-300" />
           </div>
-          <h2 className="mt-4 font-serif text-[48px] md:text-[96px] leading-[0.95] text-slate-900">
-            <Reveal>Insights</Reveal> <Reveal index={1}><em className="text-selection">&amp;</em></Reveal>{" "}
-            <Reveal index={2}>Articles</Reveal>
+          {/* Same type as the other section headings; the journal frame around it is what sets it apart */}
+          <h2 className="mt-4 font-montserrat font-medium text-[32px] md:text-[64px] text-slate-700 tracking-[-1px]">
+            <Reveal>Insights</Reveal> <Reveal index={1}>&amp;</Reveal>{" "}
+            <Reveal index={2}><span className="font-doto font-black"><ScrambleText text="Articles" /></span></Reveal>
           </h2>
-          <p className="mt-4 max-w-xl font-inter text-base md:text-lg text-slate-600">
+          <p className="mt-3 max-w-xl font-inter text-base md:text-lg text-slate-700">
             <Reveal index={3}>Deep dives into my design process, written as UI case studies.</Reveal>
           </p>
-          <div className="mt-6 h-[3px] w-full bg-slate-800" />
-          <div className="mt-1 h-px w-full bg-slate-800" />
+          <div className="mt-6 h-[3px] w-full bg-slate-700" />
+          <div className="mt-1 h-px w-full bg-slate-700" />
         </header>
 
         <div className="journal-track grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-12">

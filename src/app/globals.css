@@ -35,7 +35,6 @@
   --font-montserrat: var(--font-montserrat), sans-serif;
   --font-doto: var(--font-doto), monospace;
   --font-jaro: var(--font-jaro), sans-serif;
-  --font-serif: var(--font-instrument-serif), Georgia, serif;
 }
 
 body {
@@ -136,16 +135,6 @@ body {
       animation-range: entry calc(10% + var(--i, 0) * 8%) entry calc(90% + var(--i, 0) * 8%);
     }
 
-    /* Timeline line that draws down as the list scrolls past. */
-    .draw-y {
-      animation: grow-y linear both;
-      animation-timeline: --history;
-      animation-range: cover 20% cover 80%;
-      transform-origin: 50% 0;
-    }
-    .history-track {
-      view-timeline: --history block;
-    }
 
     /* Words of a paragraph brighten line by line as they reach the reading zone. */
     .scrub-word {
@@ -222,10 +211,6 @@ body {
 @keyframes grow-x {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
-}
-@keyframes grow-y {
-  from { transform: scaleY(0); }
-  to { transform: scaleY(1); }
 }
 @keyframes mask-up {
   from { transform: translate3d(0, 105%, 0); }
