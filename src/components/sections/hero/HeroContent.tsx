@@ -35,9 +35,10 @@ export function HeroContent() {
       className="relative flex-1 md:flex-none w-full pt-25 md:pt-75 pb-15 md:pb-12.5 lg:pb-17.5 flex flex-col items-center justify-center md:justify-start z-0"
     >
 
-      {/* Decorative floating blobs (pure CSS animations, see globals.css) */}
-      <div className="animate-float-up absolute top-[20%] left-[10%] w-37.5 h-37.5 md:w-75 md:h-75 bg-slate-900/10 rounded-full blur-3xl pointer-events-none will-change-transform" />
-      <div className="animate-float-down absolute bottom-[20%] right-[15%] w-50 h-50 md:w-100 md:h-100 bg-white/20 rounded-full blur-3xl pointer-events-none will-change-transform" />
+      {/* Decorative floating blobs (pure CSS animations, see globals.css). Soft edges come from a
+          radial gradient, not filter: blur(), which is costly to keep animating (worst in Safari). */}
+      <div className="animate-float-up absolute top-[14%] left-[6%] size-[214px] md:size-[428px] rounded-full bg-[radial-gradient(closest-side,rgb(15_23_42/0.10),transparent)] pointer-events-none" />
+      <div className="animate-float-down absolute bottom-[14%] right-[10%] size-[264px] md:size-[528px] rounded-full bg-[radial-gradient(closest-side,rgb(255_255_255/0.22),transparent)] pointer-events-none" />
 
       <motion.div
         variants={containerVariants}

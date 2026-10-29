@@ -72,7 +72,7 @@ export function Navbar() {
 
   return (
     <nav aria-label="Sections" className="fixed inset-x-0 bottom-4 md:bottom-6 z-50 flex justify-center px-4 pointer-events-none">
-      <div className="pointer-events-auto flex items-center gap-1 rounded-2xl border border-panel-border bg-panel/95 p-1.5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] backdrop-blur-md">
+      <div className="pointer-events-auto flex items-center gap-1 rounded-2xl border border-panel-border bg-panel p-1.5 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
         {NAV_TABS.map((tab, i) => {
           const Icon = TAB_ICONS[tab.id];
           const isActive = i === activeTab;

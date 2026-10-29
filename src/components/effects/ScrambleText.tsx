@@ -5,14 +5,15 @@ import { useInView } from "framer-motion";
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+";
 
 /**
- * Scrambles into `text` each time it scrolls into view (or the text changes).
+ * Scrambles into `text` the first time it scrolls into view (or when the text changes).
  * Frames are written straight to the DOM every 40ms, so it never re-renders React.
  */
 export function ScrambleText({ text, duration = 1500, loop = false }: { text: string, duration?: number, loop?: boolean }) {
   const ref = useRef<HTMLSpanElement>(null);
   // Separate ref for the text: a ref handed to useInView must not be written through.
   const textRef = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: false, margin: "-10%" });
+  // Once only: re-scrambling on every scroll past re-lays-out the text while the page is scrolling.
+  const isInView = useInView(ref, { once: true, margin: "-10%" });
 
   useEffect(() => {
     // Write to React's own text node so later renders (a new `text`) still update it.
