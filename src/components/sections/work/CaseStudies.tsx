@@ -84,7 +84,7 @@ function CaseStudyGrid() {
 
 export function CaseStudies() {
   return (
-    <section id="work" className="relative w-full pt-20 sm:pt-40 md:pt-56 pb-8 md:pb-12 flex flex-col items-center">
+    <section id="work" className="relative w-full pt-16 md:pt-24 pb-8 md:pb-12 flex flex-col items-center">
       <div className="mb-8 md:mb-4 flex flex-col items-center gap-3 px-4 text-center">
         <h2 className="font-montserrat font-medium text-[32px] md:text-[64px] text-slate-700 tracking-[-1px]">
           <Reveal>Case</Reveal> <Reveal index={1}><span className="font-doto font-black"><ScrambleText text="Studies" /></span></Reveal>

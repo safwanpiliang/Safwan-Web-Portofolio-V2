@@ -9,6 +9,8 @@ import { HeroSection } from "@/components/sections/hero/HeroSection";
 import { HeroTransition } from "@/components/sections/hero/HeroTransition";
 import { Projects } from "@/components/sections/projects/Projects";
 import { CaseStudies } from "@/components/sections/work/CaseStudies";
+import { Services } from "@/components/sections/services/Services";
+import { EditorialBand } from "@/components/sections/work/EditorialBand";
 
 export default function Home() {
   return (
@@ -21,7 +23,9 @@ export default function Home() {
       {/* Dotted canvas; sits above the hero so the transition line can overlap it */}
       <div className="canvas-grid w-full relative z-10 flex flex-col items-center min-h-svh">
         <HeroTransition />
+        <Services />
         <CaseStudies />
+        <EditorialBand />
         <Projects />
         <VersionHistory />
         <Articles />
