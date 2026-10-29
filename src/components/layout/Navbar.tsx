@@ -1,13 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useMotionValueEvent, useScroll, useTransform, type MotionValue } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { useMotionValueEvent, useScroll } from "framer-motion";
+import { Frame, MessageCircle, MousePointer2, Type, type LucideIcon } from "lucide-react";
 import { NAV_TABS, SITE_LINKS } from "@/data/site";
 
-/** Scroll distance over which the navbar morphs from transparent to the floating pill. */
-const SCROLL_RANGE = [0, 200];
-const px = (v: number) => `${v}px`;
+/** Each section is a Figma tool: Move (home), Frame (works), Text (about). */
+const TAB_ICONS: Record<(typeof NAV_TABS)[number]["id"], LucideIcon> = {
+  hero: MousePointer2,
+  projects: Frame,
+  about: Type,
+};
 
 interface PageLayout {
   /** Document-relative top of each tab's section. */
@@ -36,43 +39,13 @@ function findActiveTab(scrollY: number, { sectionTops, pageHeight }: PageLayout)
   return 0;
 }
 
-interface NavButtonProps {
-  label: string;
-  isActive: boolean;
-  isScrolled: boolean;
-  scrollY: MotionValue<number>;
-  onClick: () => void;
-}
-
-function NavButton({ label, isActive, isScrolled, scrollY, onClick }: NavButtonProps) {
-  const bgActive = useTransform(scrollY, SCROLL_RANGE, ["rgba(255, 255, 255, 0.15)", "rgba(203, 213, 225, 0.4)"]);
-  const textColorActive = useTransform(scrollY, SCROLL_RANGE, ["rgb(255, 255, 255)", "rgb(15, 23, 42)"]); // white → slate-900
-  const textColorInactive = useTransform(scrollY, SCROLL_RANGE, ["rgb(203, 213, 225)", "rgb(71, 85, 105)"]); // slate-300 → slate-600
-
-  return (
-    <div className="relative rounded-full flex items-center justify-center">
-      <motion.div
-        style={{ backgroundColor: isActive ? bgActive : "transparent" }}
-        className="absolute inset-0 rounded-full pointer-events-none z-[1]"
-      />
-      <motion.button
-        type="button"
-        onClick={onClick}
-        aria-current={isActive ? "true" : undefined}
-        style={{ color: isActive ? textColorActive : textColorInactive }}
-        whileHover={{ color: isScrolled ? "rgb(15, 23, 42)" : "rgb(255, 255, 255)" }}
-        className="relative z-10 flex items-center justify-center gap-2 px-3 py-1.5 md:px-3.5 md:py-2 rounded-full font-inter font-medium text-[12px] md:text-[14px] leading-[20px] whitespace-nowrap transition-colors duration-200"
-      >
-        {label}
-      </motion.button>
-    </div>
-  );
-}
-
+/**
+ * Floating Figma-style toolbar at the bottom of the screen: in thumb reach on phones and the same
+ * on every device. Phones show only the active tab's label so the bar fits a 360px screen.
+ */
 export function Navbar() {
   const { scrollY } = useScroll();
   const [activeTab, setActiveTab] = useState(0);
-  const [isScrolled, setIsScrolled] = useState(false);
 
   const layout = useRef<PageLayout>({ sectionTops: [], pageHeight: 0 });
 
@@ -89,25 +62,8 @@ export function Navbar() {
 
   // Motion values fire at most once per frame, so this doubles as a throttled scroll handler.
   useMotionValueEvent(scrollY, "change", (latest) => {
-    setIsScrolled(latest > 100);
     setActiveTab(findActiveTab(latest, layout.current));
   });
-
-  const navPadding = useTransform(useTransform(scrollY, SCROLL_RANGE, [16, 0]), px);
-  const spacerFlex = useTransform(scrollY, SCROLL_RANGE, [1, 0]);
-
-  // Shared by the tab group and the CTA group
-  const groupBg = useTransform(scrollY, SCROLL_RANGE, ["rgba(248, 250, 252, 0)", "rgba(248, 250, 252, 1)"]);
-  const groupShadow = useTransform(scrollY, SCROLL_RANGE, ["0px 0px 0px rgba(0, 0, 0, 0)", "0px 4px 20px rgba(0, 0, 0, 0.08)"]);
-  const groupPadding = useTransform(useTransform(scrollY, SCROLL_RANGE, [0, 8]), px);
-
-  // "Let's talk" CTA collapses into an icon-only button
-  const ctaBg = useTransform(scrollY, SCROLL_RANGE, ["rgba(241, 245, 249, 1)", "rgba(241, 245, 249, 0)"]);
-  const ctaColor = useTransform(scrollY, SCROLL_RANGE, ["rgb(51, 65, 85)", "rgb(71, 85, 105)"]);
-  const ctaPaddingSide = useTransform(useTransform(scrollY, SCROLL_RANGE, [16, 14]), px);
-  const ctaGap = useTransform(useTransform(scrollY, SCROLL_RANGE, [8, 0]), px);
-  const ctaTextWidth = useTransform(useTransform(scrollY, SCROLL_RANGE, [65, 0]), px);
-  const ctaTextOpacity = useTransform(scrollY, SCROLL_RANGE, [1, 0]);
 
   const handleTabClick = (index: number) => {
     setActiveTab(index);
@@ -115,60 +71,43 @@ export function Navbar() {
   };
 
   return (
-    <div className="fixed top-4 md:top-6 left-0 right-0 z-50 flex justify-center pointer-events-none">
-      <motion.nav
-        style={{ paddingLeft: navPadding, paddingRight: navPadding }}
-        className="flex justify-center items-center w-full max-w-[1400px] pointer-events-auto"
-      >
-        <motion.div
-          style={{ backgroundColor: groupBg, boxShadow: groupShadow, padding: groupPadding }}
-          className="relative flex items-center gap-[4px] md:gap-[15px] rounded-full"
-        >
-          {NAV_TABS.map((tab, i) => (
-            <NavButton
+    <nav aria-label="Sections" className="fixed inset-x-0 bottom-4 md:bottom-6 z-50 flex justify-center px-4 pointer-events-none">
+      <div className="pointer-events-auto flex items-center gap-1 rounded-2xl border border-panel-border bg-panel/95 p-1.5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] backdrop-blur-md">
+        {NAV_TABS.map((tab, i) => {
+          const Icon = TAB_ICONS[tab.id];
+          const isActive = i === activeTab;
+          return (
+            <button
               key={tab.id}
-              label={tab.label}
-              isActive={i === activeTab}
-              isScrolled={isScrolled}
-              scrollY={scrollY}
+              type="button"
               onClick={() => handleTabClick(i)}
-            />
-          ))}
-        </motion.div>
-
-        {/* Spacer + CTA are desktop-only */}
-        <motion.div style={{ flexGrow: spacerFlex, minWidth: "16px" }} className="hidden md:block" />
-
-        <motion.div
-          style={{ backgroundColor: groupBg, boxShadow: groupShadow, padding: groupPadding }}
-          className="hidden md:flex items-center rounded-full"
-        >
-          <motion.a
-            href={SITE_LINKS.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              backgroundColor: ctaBg,
-              color: ctaColor,
-              paddingLeft: ctaPaddingSide,
-              paddingRight: ctaPaddingSide,
-              paddingTop: "8px",
-              paddingBottom: "8px",
-              gap: ctaGap,
-            }}
-            whileHover={isScrolled ? { color: "rgb(15, 23, 42)" } : { backgroundColor: "rgb(226, 232, 240)" }}
-            className="flex items-center justify-center rounded-full font-inter font-medium text-[14px] leading-[20px] whitespace-nowrap transition-colors duration-200 group"
-          >
-            <motion.span
-              style={{ width: ctaTextWidth, opacity: ctaTextOpacity }}
-              className="block overflow-hidden whitespace-nowrap"
+              aria-label={tab.label}
+              aria-current={isActive ? "true" : undefined}
+              className={`flex h-11 min-w-11 items-center justify-center gap-2 rounded-xl px-3 font-inter text-[13px] font-medium whitespace-nowrap transition-colors duration-150 ${
+                isActive ? "bg-selection text-white" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+              }`}
             >
-              Let&apos;s talk
-            </motion.span>
-            <ArrowUpRight className="w-5 h-5 group-hover:translate-x-[2px] group-hover:-translate-y-[2px] transition-transform duration-200" />
-          </motion.a>
-        </motion.div>
-      </motion.nav>
-    </div>
+              <Icon aria-hidden className="size-[18px] shrink-0" strokeWidth={1.75} />
+              <span aria-hidden className={isActive ? "inline" : "hidden sm:inline"}>
+                {tab.label}
+              </span>
+            </button>
+          );
+        })}
+
+        <span aria-hidden className="mx-1 h-6 w-px bg-panel-border" />
+
+        <a
+          href={SITE_LINKS.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Let's talk"
+          className="flex h-11 min-w-11 items-center justify-center gap-2 rounded-xl bg-brand-orange px-3 font-inter text-[13px] font-semibold text-ink whitespace-nowrap transition-colors duration-150 hover:bg-brand-orange-hover"
+        >
+          <MessageCircle aria-hidden className="size-[18px] shrink-0" strokeWidth={1.75} />
+          <span aria-hidden className="hidden sm:inline">Let&apos;s talk</span>
+        </a>
+      </div>
+    </nav>
   );
 }

@@ -9,14 +9,14 @@ import { Projects } from "@/components/sections/projects/Projects";
 
 export default function Home() {
   return (
-    <main className="page-shell flex min-h-screen flex-col items-center w-full bg-slate-100">
+    <main className="page-shell flex min-h-svh flex-col items-center w-full bg-canvas">
       <MultiplayerCursors />
       <Navbar />
 
       <HeroSection />
 
-      {/* Dotted background; sits above the hero so the transition line can overlap it */}
-      <div className="w-full relative z-10 flex flex-col items-center min-h-screen bg-slate-100 bg-[radial-gradient(var(--color-slate-300)_1px,transparent_1px)] [background-size:24px_24px]">
+      {/* Dotted canvas; sits above the hero so the transition line can overlap it */}
+      <div className="canvas-grid w-full relative z-10 flex flex-col items-center min-h-svh">
         <HeroTransition />
         <Projects />
         <Articles />
