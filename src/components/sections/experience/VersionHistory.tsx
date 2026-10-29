@@ -36,14 +36,14 @@ export function VersionHistory() {
 
         <dl className="grid w-full max-w-3xl grid-cols-2 md:grid-cols-4 gap-3">
           {STATS.map((s) => (
-            <div key={s.label} className="flex flex-col-reverse gap-1 rounded-xl border border-panel-border bg-panel p-4">
+            <div key={s.label} className="reveal-on-view flex flex-col-reverse gap-1 rounded-xl border border-panel-border bg-panel p-4">
               <dt className="font-inter text-xs text-slate-500">{s.label}</dt>
               <dd className="font-doto text-3xl md:text-4xl font-black text-slate-800 tabular-nums">{s.value}</dd>
             </div>
           ))}
         </dl>
 
-        <div className="w-full max-w-3xl overflow-hidden rounded-xl border border-panel-border bg-panel">
+        <div className="reveal-on-view w-full max-w-3xl overflow-hidden rounded-xl border border-panel-border bg-panel">
           <div className="flex flex-wrap gap-1.5 border-b border-panel-border p-2">
             {FILTERS.map((f) => (
               <button
@@ -60,7 +60,8 @@ export function VersionHistory() {
             ))}
           </div>
 
-          <ol>
+          {/* Keyed on the filter so the list re-mounts and fades in on every change */}
+          <ol key={group} className="animate-fade-in">
             {rows.map((e) => (
               <li key={`${e.org}-${e.role}`} className="flex gap-3 border-t border-panel-border px-4 py-3 first:border-t-0">
                 <span

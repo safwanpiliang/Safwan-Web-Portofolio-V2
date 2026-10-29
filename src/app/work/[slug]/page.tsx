@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="border-t border-slate-300 pt-6">
+    <section className="reveal-on-view border-t border-slate-300 pt-6">
       <h2 className="font-montserrat text-xl md:text-2xl font-semibold text-slate-800">{title}</h2>
       <div className="mt-3 font-inter text-base leading-relaxed text-slate-700">{children}</div>
     </section>
