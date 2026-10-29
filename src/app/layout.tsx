@@ -26,6 +26,8 @@ const jaro = Jaro({
 });
 
 export const metadata: Metadata = {
+  // Resolves relative Open Graph image paths (case study covers) to absolute URLs.
+  metadataBase: new URL("https://safwan.id"),
   title: "Safwan Piliang - Portfolio",
   description: "Portfolio of Safwan Piliang",
 };

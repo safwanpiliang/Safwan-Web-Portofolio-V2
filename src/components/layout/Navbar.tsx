@@ -8,7 +8,7 @@ import { NAV_TABS, SITE_LINKS } from "@/data/site";
 /** Each section is a Figma tool: Move (home), Frame (works), Text (about). */
 const TAB_ICONS: Record<(typeof NAV_TABS)[number]["id"], LucideIcon> = {
   hero: MousePointer2,
-  projects: Frame,
+  work: Frame,
   about: Type,
 };
 
