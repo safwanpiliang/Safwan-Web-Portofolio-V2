@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { animate, useInView, useReducedMotion } from "framer-motion";
 
 /**
- * Counts a stat like "22" or "1,000+" up from zero the first time it scrolls into view.
+ * Counts a stat like "22" or "19+" up from zero the first time it scrolls into view.
  * The real value is rendered on the server and kept for reduced motion and screen readers.
  * Frames are written straight to the DOM (no React state), so the count never re-renders.
  */

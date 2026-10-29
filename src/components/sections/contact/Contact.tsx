@@ -2,22 +2,17 @@ import Image from "next/image";
 import { ArrowUpRight, Mail } from "lucide-react";
 import { Reveal } from "@/components/effects/Reveal";
 import { ScrambleText } from "@/components/effects/ScrambleText";
-import { SITE_LINKS, SOCIAL_LINKS, STATUS } from "@/data/site";
+import { SITE_LINKS, SOCIAL_LINKS } from "@/data/site";
 import { CopyEmailButton } from "./CopyEmailButton";
 
 /**
- * Closing call to action, kept simple: availability, one sentence, then the two ways to reach
+ * Closing call to action, kept simple: one sentence, then the two ways to reach
  * out (email / copy email) and the secondary links (CV, socials).
  */
 export function Contact() {
   return (
     <section id="contact" className="relative w-full px-4 sm:px-6 py-16 md:py-28 flex flex-col items-center text-center">
-      <p className="reveal-on-view inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 font-inter text-xs md:text-sm font-medium text-emerald-700">
-        <span aria-hidden className="size-2 rounded-full bg-emerald-500 ring-4 ring-emerald-500/15" />
-        {STATUS}
-      </p>
-
-      <h2 className="mt-6 font-montserrat font-medium text-[40px] md:text-[80px] leading-none text-slate-800 tracking-[-1px]">
+      <h2 className="font-montserrat font-medium text-[40px] md:text-[80px] leading-none text-slate-800 tracking-[-1px]">
         <Reveal>Let&apos;s</Reveal> <Reveal index={1}><span className="font-doto font-black"><ScrambleText text="Talk" /></span></Reveal>
       </h2>
 
