@@ -1,35 +1,31 @@
-"use client";
-
-import { useRef } from "react";
 import Image from "next/image";
-import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import type { CSSProperties } from "react";
 import { Reveal } from "@/components/effects/Reveal";
 import { ScrambleText } from "@/components/effects/ScrambleText";
 import { SERVICES, type Service } from "@/data/services";
 
-interface CardProps {
-  service: Service;
-  index: number;
-  progress: MotionValue<number>;
-  reduce: boolean;
-}
-
 /**
  * One full-screen sticky slot. Cards stack on top of each other; once a card is covered it
- * shrinks a little, so the deck reads as layers (scale only: composited, no layout).
+ * shrinks a little, so the deck reads as layers. The shrink is a CSS view timeline on the deck
+ * (`.deck-card` in globals.css), so it runs on the compositor, not as a per-frame JS update.
  */
-function ServiceCard({ service, index, progress, reduce }: CardProps) {
+function ServiceCard({ service, index }: { service: Service; index: number }) {
   const count = SERVICES.length;
-  const targetScale = 1 - (count - index) * 0.04;
-  const scale = useTransform(progress, [index / count, 1], [1, targetScale]);
 
   return (
     <div className="sticky top-0 flex h-svh items-start justify-center px-4 sm:px-6 pt-6 pb-[var(--toolbar-space)] md:pb-12">
-      <motion.article
+      <article
         // Each card sits a little lower than the one before so the stack's edges show; shorten it by
-        // the same amount so it never slides under the toolbar.
-        style={{ scale: reduce ? 1 : scale, top: `${index * 20}px`, height: `calc(100% - ${index * 20}px)` }}
-        className={`relative flex max-h-[640px] w-full max-w-[1200px] origin-top flex-col justify-between gap-6 overflow-hidden rounded-3xl p-6 md:p-10 shadow-[0_-12px_40px_rgba(15,23,42,0.12)] ${service.tone}`}
+        // the same amount so it never slides under the toolbar. --from/--to drive the shrink.
+        style={
+          {
+            top: `${index * 20}px`,
+            height: `calc(100% - ${index * 20}px)`,
+            "--from": `${(index / count) * 100}%`,
+            "--to": 1 - (count - index) * 0.04,
+          } as CSSProperties
+        }
+        className={`deck-card relative flex max-h-[640px] w-full max-w-[1200px] origin-top flex-col justify-between gap-6 overflow-hidden rounded-3xl p-6 md:p-10 shadow-[0_-12px_40px_rgba(15,23,42,0.12)] ${service.tone}`}
       >
         <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-10">
           <div className="flex flex-col gap-4">
@@ -60,17 +56,13 @@ function ServiceCard({ service, index, progress, reduce }: CardProps) {
             </li>
           ))}
         </ul>
-      </motion.article>
+      </article>
     </div>
   );
 }
 
 /** "What I do": a deck of service cards that stack as you scroll (inspired by stacked-scroll studio sites). */
 export function Services() {
-  const deckRef = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion() ?? false;
-  const { scrollYProgress } = useScroll({ target: deckRef, offset: ["start start", "end end"] });
-
   return (
     <section id="services" className="relative w-full pt-20 sm:pt-40 md:pt-56">
       <div className="flex flex-col items-center gap-3 px-4 text-center">
@@ -83,9 +75,9 @@ export function Services() {
         </p>
       </div>
 
-      <div ref={deckRef} className="relative">
+      <div className="deck-track relative">
         {SERVICES.map((service, i) => (
-          <ServiceCard key={service.title} service={service} index={i} progress={scrollYProgress} reduce={reduce} />
+          <ServiceCard key={service.title} service={service} index={i} />
         ))}
       </div>
     </section>

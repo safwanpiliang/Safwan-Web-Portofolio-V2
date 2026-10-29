@@ -15,7 +15,7 @@ export function ArticleCard({ article, index }: { article: Article; index: numbe
         href={article.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative block h-full bg-panel p-5 md:p-7 shadow-[0_18px_50px_rgba(15,23,42,0.12)] ring-1 ring-black/5 transition-[transform,box-shadow] duration-300 ease-(--ease-out) hover:-translate-y-1.5 hover:shadow-[0_26px_60px_rgba(15,23,42,0.16)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-selection"
+        className="group relative block h-full bg-panel p-5 md:p-7 shadow-[0_18px_50px_rgba(15,23,42,0.12)] ring-1 ring-black/5 transition-transform duration-300 ease-(--ease-out) hover:-translate-y-1.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-selection"
       >
         {/* Folded corner */}
         <span aria-hidden className="absolute right-0 top-0 size-8 bg-[linear-gradient(225deg,var(--color-canvas)_50%,var(--color-slate-200)_50%)] shadow-[-2px_2px_4px_rgba(0,0,0,0.06)]" />

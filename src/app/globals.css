@@ -136,12 +136,6 @@ body {
     }
 
 
-    /* Words of a paragraph brighten line by line as they reach the reading zone. */
-    .scrub-word {
-      animation: word-light linear both;
-      animation-timeline: view();
-      animation-range: cover 15% cover 40%;
-    }
 
     /* Big text band that slides sideways with the scroll. */
     .slide-band {
@@ -156,6 +150,28 @@ body {
     }
     .band-track {
       view-timeline: --band block;
+    }
+
+    /* What I Do deck: a covered card shrinks to --to between --from and the deck's end.
+     * Same mapping as the old JS version, but on the compositor. */
+    .deck-track {
+      view-timeline: --deck block;
+    }
+    .deck-card {
+      animation: deck-shrink linear both;
+      animation-timeline: --deck;
+      animation-range: contain var(--from, 0%) contain 100%;
+    }
+
+    /* About ID card turns upright as it reaches the middle of the screen. The timeline is on the
+     * untransformed wrapper so the card's own rotation can't skew it. */
+    .id-card-track {
+      view-timeline: --idcard block;
+    }
+    .id-card-in {
+      animation: id-card-in linear both;
+      animation-timeline: --idcard;
+      animation-range: entry 0% cover 50%;
     }
 
     /* Journal: article pages start as one pile in the middle and fan out to their columns,
@@ -216,9 +232,17 @@ body {
   from { transform: translate3d(0, 105%, 0); }
   to { transform: none; }
 }
-@keyframes word-light {
-  from { opacity: 0.18; }
-  to { opacity: 1; }
+@keyframes deck-shrink {
+  to { transform: scale(var(--to, 1)); }
+}
+@keyframes id-card-in {
+  0% { opacity: 0; transform: translate3d(0, 200px, 0) scale(0.8) rotateX(70deg) rotateZ(20deg); }
+  60% { opacity: 1; }
+  100% { opacity: 1; transform: scale(1.1) rotateX(15deg) rotateZ(-5deg); }
+}
+/* Resting pose of the ID card (also the static fallback). */
+.id-card-in {
+  transform: scale(1.1) rotateX(15deg) rotateZ(-5deg);
 }
 @keyframes paper-in {
   from { opacity: 0; transform: translate3d(0, 48px, 0) rotate(-3deg); }

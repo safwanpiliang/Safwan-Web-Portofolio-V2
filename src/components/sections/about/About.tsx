@@ -6,7 +6,7 @@ import { IdCard3D } from "./IdCard3D";
 
 const TITLE_WORDS = ["You?", "Me?"];
 
-/** Bio as [text, bold] runs, split into words for the scroll highlight. */
+/** Bio as [text, bold] runs. */
 const BIO: [string, boolean][] = [
   ["\u201cHi, I\u2019m ", false],
   ["Safwan Piliang", true],
@@ -45,21 +45,8 @@ export function About() {
             </span>
           </motion.h2>
 
-          {/* Words brighten line by line as the bio scrolls into the reading zone (.scrub-word) */}
-          <p className="font-montserrat font-medium text-[13px] sm:text-[16px] md:text-[18px] lg:text-[20px] text-slate-700 leading-[22px] sm:leading-[26px] md:leading-[32px] text-center md:text-left tracking-[0.15px]">
-            {BIO.flatMap(([text, bold], i) =>
-              // Words are inline-block so each gets its own view timeline (inline spans share the
-              // paragraph's); spaces stay plain text so lines still wrap normally.
-              text.split(/( )/).filter(Boolean).map((token, j) =>
-                token === " " ? (
-                  " "
-                ) : (
-                  <span key={`${i}-${j}`} className={`scrub-word inline-block${bold ? " font-bold" : ""}`}>
-                    {token}
-                  </span>
-                )
-              )
-            )}
+          <p className="reveal-on-view font-montserrat font-medium text-[13px] sm:text-[16px] md:text-[18px] lg:text-[20px] text-slate-700 leading-[22px] sm:leading-[26px] md:leading-[32px] text-center md:text-left tracking-[0.15px]">
+            {BIO.map(([text, bold], i) => (bold ? <span key={i} className="font-bold">{text}</span> : text))}
           </p>
         </div>
 
