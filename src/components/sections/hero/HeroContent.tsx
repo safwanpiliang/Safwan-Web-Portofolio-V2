@@ -49,7 +49,7 @@ export function HeroContent() {
         <motion.div variants={itemVariants} className="flex flex-col gap-1 md:gap-2 items-center text-center tracking-[0.33px] md:tracking-[0.6px]">
           {/* Figma mobile: 12px / Desktop: 20px */}
           <p className="font-montserrat text-[12px] md:text-[20px] text-slate-100">
-            Hi, Im <span className="font-semibold">Safwan Piliang!</span>
+            Hi, I&apos;m <span className="font-semibold">Safwan Piliang!</span>
           </p>
 
           {/* Mobile: scaled down to 36px, Desktop: 64/72px */}

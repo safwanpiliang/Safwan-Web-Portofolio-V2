@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ScrambleText } from "@/components/effects/ScrambleText";
+import { File } from "lucide-react";
 
 /** How long the intro screen stays up. It does not wait for images to load. */
 const DISPLAY_MS = 2000;
 
+/** Intro styled as opening a design file; the bar fills in pure CSS (see `animate-load-bar`). */
 export function LoadingScreen() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -28,12 +29,19 @@ export function LoadingScreen() {
         <motion.div
           key="loading-screen"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, y: -20, filter: "blur(10px)" }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-100 font-doto"
+          exit={{ opacity: 0, scale: 1.02 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="canvas-grid fixed inset-0 z-[10000] flex items-center justify-center px-4"
         >
-          <div className="text-2xl md:text-5xl font-bold text-slate-900 tracking-[0.2em] md:tracking-[0.3em]">
-            <ScrambleText text="LOADING..." duration={1200} loop={true} />
+          <div role="status" className="w-full max-w-80 rounded-xl border border-panel-border bg-panel p-4 shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
+            <div className="flex items-center gap-2 font-inter text-sm font-medium text-slate-900">
+              <File aria-hidden className="size-4 shrink-0 text-selection" strokeWidth={2} />
+              <span className="truncate">Safwan-Portfolio.fig</span>
+            </div>
+            <div className="mt-3 h-1 overflow-hidden rounded-full bg-slate-200">
+              <div className="animate-load-bar h-full w-full rounded-full bg-selection" />
+            </div>
+            <p className="mt-2 font-inter text-xs text-slate-500">Opening file…</p>
           </div>
         </motion.div>
       )}
