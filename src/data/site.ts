@@ -1,12 +1,23 @@
 export const SITE_LINKS = {
-  instagram: "https://www.instagram.com/safwan.piliang",
   behance: "https://www.behance.net/safwanpiliang",
   /**
    * Direct download of the CV from Google Drive. To change the file, replace the id with the one from the
    * Drive share link (.../file/d/<ID>/view). The file must be shared as "Anyone with the link".
    */
   cv: "https://drive.google.com/uc?export=download&id=1iMM0v3KjinXg9lZdYFGMDpj3lmXj1FGc",
+  email: "safwanpiliang17@gmail.com",
 } as const;
+
+/** Availability shown in About and Contact. Update when the internship search changes. */
+export const STATUS = "Open for a UI/UX internship · from Dec 2026";
+
+/** Rows of the About "Inspect" panel. */
+export const PROFILE = [
+  { label: "Role", value: "UI/UX & Product Designer · Visual & 3D Designer" },
+  { label: "Based", value: "Yogyakarta, Indonesia" },
+  { label: "Studying", value: "D-IV Software Engineering Technology, Universitas Gadjah Mada (2024 – now)" },
+  { label: "Tools", value: "Figma, Illustrator, Photoshop, Blender" },
+];
 
 export const NAV_TABS = [
   { label: "Home", id: "hero" },
@@ -16,14 +27,16 @@ export const NAV_TABS = [
 ] as const;
 
 export interface SocialLink {
+  /** Platform name, used as the icon link's accessible label. */
   label: string;
   icon: string;
   href: string;
 }
 
+/** Icon links in the Contact section; email has its own button (SITE_LINKS.email). */
 export const SOCIAL_LINKS: SocialLink[] = [
-  { label: "Safwan Piliang", icon: "/images/icons/linkedin.svg", href: "https://www.linkedin.com/in/safwan-piliang-548b9a325" },
-  { label: "safwanpiliang17@gmail.com", icon: "/images/icons/gmail.svg", href: "mailto:safwanpiliang17@gmail.com" },
-  { label: "Safwan Piliang", icon: "/images/icons/behance.svg", href: "https://www.behance.net/safwanpiliang" },
-  { label: "safwan.piliang", icon: "/images/icons/instagram.svg", href: "https://www.instagram.com/safwan.piliang?igsh=MXZibHh1dzhseWZvYQ==" },
+  { label: "LinkedIn", icon: "/images/icons/linkedin.svg", href: "https://www.linkedin.com/in/safwan-piliang-548b9a325" },
+  { label: "Behance", icon: "/images/icons/behance.svg", href: "https://www.behance.net/safwanpiliang" },
+  { label: "Medium", icon: "/images/icons/medium.svg", href: "https://safwanpiliang.medium.com" },
+  { label: "Instagram", icon: "/images/icons/instagram.svg", href: "https://www.instagram.com/safwan.piliang?igsh=MXZibHh1dzhseWZvYQ==" },
 ];

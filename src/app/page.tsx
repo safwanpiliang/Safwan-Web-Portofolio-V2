@@ -4,6 +4,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { About } from "@/components/sections/about/About";
 import { Articles } from "@/components/sections/articles/Articles";
 import { VersionHistory } from "@/components/sections/experience/VersionHistory";
+import { Contact } from "@/components/sections/contact/Contact";
 import { HeroSection } from "@/components/sections/hero/HeroSection";
 import { HeroTransition } from "@/components/sections/hero/HeroTransition";
 import { Projects } from "@/components/sections/projects/Projects";
@@ -25,6 +26,7 @@ export default function Home() {
         <VersionHistory />
         <Articles />
         <About />
+        <Contact />
         <div className="w-full relative z-10">
           <Footer />
         </div>
