@@ -3,7 +3,6 @@ import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { About } from "@/components/sections/about/About";
 import { Articles } from "@/components/sections/articles/Articles";
-import { VersionHistory } from "@/components/sections/experience/VersionHistory";
 import { Contact } from "@/components/sections/contact/Contact";
 import { HeroSection } from "@/components/sections/hero/HeroSection";
 import { HeroTransition } from "@/components/sections/hero/HeroTransition";
@@ -25,7 +24,6 @@ export default function Home() {
         <Services />
         <EditorialBand />
         <Projects />
-        <VersionHistory />
         <Articles />
         <About />
         <Contact />

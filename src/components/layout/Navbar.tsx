@@ -2,14 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
-import { Frame, History, MessageCircle, MousePointer2, Type, type LucideIcon } from "lucide-react";
+import { Frame, MessageCircle, MousePointer2, Type, type LucideIcon } from "lucide-react";
 import { NAV_TABS } from "@/data/site";
 
-/** Each section is a Figma tool: Move (home), Frame (works), Version history (experience), Text (about). */
+/** Each section is a Figma tool: Move (home), Frame (works), Text (about). */
 const TAB_ICONS: Record<(typeof NAV_TABS)[number]["id"], LucideIcon> = {
   hero: MousePointer2,
   projects: Frame,
-  experience: History,
   about: Type,
 };
 
