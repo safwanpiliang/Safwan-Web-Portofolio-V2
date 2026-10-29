@@ -5,7 +5,6 @@ import { CountUp } from "@/components/effects/CountUp";
 import { Reveal } from "@/components/effects/Reveal";
 import { ScrambleText } from "@/components/effects/ScrambleText";
 import { ARTICLES } from "@/data/articles";
-import { CASE_STUDIES } from "@/data/caseStudies";
 import { EXPERIENCE, EXPERIENCE_GROUPS, type Experience } from "@/data/experience";
 import { PROJECTS } from "@/data/projects";
 
@@ -15,7 +14,7 @@ const FILTERS = [ALL, ...EXPERIENCE_GROUPS];
 // Every number is derived from the data files, except the Batam figure from its project overview.
 const SINCE = EXPERIENCE.map((e) => e.start).sort()[0].slice(0, 4);
 const STATS = [
-  { value: String(PROJECTS.length + CASE_STUDIES.filter((c) => c.locked).length), label: "projects" },
+  { value: String(PROJECTS.length), label: "projects" },
   { value: String(EXPERIENCE.length), label: `roles since ${SINCE}` },
   { value: String(ARTICLES.length), label: "case studies on Medium" },
   { value: "1,000+", label: "registrants on Batam Campus Expo" },

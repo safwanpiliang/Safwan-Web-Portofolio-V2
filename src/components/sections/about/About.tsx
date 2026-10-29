@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { TypewriterText } from "@/components/effects/TypewriterText";
-import { PROFILE, STATUS } from "@/data/site";
 import { IdCard3D } from "./IdCard3D";
 
 const TITLE_WORDS = ["You?", "Me?"];
@@ -62,30 +61,6 @@ export function About() {
               )
             )}
           </p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
-            className="w-full max-w-xl rounded-xl border border-panel-border bg-panel p-4 text-left"
-          >
-            {/* Figma-style "Inspect" panel with the facts a recruiter scans for */}
-            <p className="font-inter text-xs font-semibold text-slate-900">Inspect</p>
-            <dl className="mt-3 grid grid-cols-[80px_minmax(0,1fr)] gap-x-3 gap-y-2 font-inter text-sm">
-              {PROFILE.map((row) => (
-                <div key={row.label} className="contents">
-                  <dt className="text-slate-500">{row.label}</dt>
-                  <dd className="text-slate-800">{row.value}</dd>
-                </div>
-              ))}
-              <dt className="text-slate-500">Status</dt>
-              <dd className="flex items-center gap-2 font-medium text-emerald-700">
-                <span aria-hidden className="size-2 shrink-0 rounded-full bg-emerald-500 ring-4 ring-emerald-500/15" />
-                {STATUS}
-              </dd>
-            </dl>
-          </motion.div>
         </div>
 
         <IdCard3D />

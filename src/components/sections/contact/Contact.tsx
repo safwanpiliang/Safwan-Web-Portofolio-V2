@@ -3,82 +3,67 @@ import { ArrowUpRight, Mail } from "lucide-react";
 import { Reveal } from "@/components/effects/Reveal";
 import { ScrambleText } from "@/components/effects/ScrambleText";
 import { SITE_LINKS, SOCIAL_LINKS, STATUS } from "@/data/site";
+import { CopyEmailButton } from "./CopyEmailButton";
 
-/** Closing call to action, styled as a Figma comment pinned on the canvas. */
+/**
+ * Closing call to action, kept simple: availability, one sentence, then the two ways to reach
+ * out (email / copy email) and the secondary links (CV, socials).
+ */
 export function Contact() {
   return (
-    <section id="contact" className="relative w-full px-4 sm:px-6 py-12 md:py-24 flex flex-col items-center gap-8 md:gap-12">
-      {/* Oversized band that slides sideways with the scroll (.slide-band) */}
-      <div aria-hidden className="band-track -mx-4 sm:-mx-6 self-stretch overflow-clip">
-        <p className="slide-band whitespace-nowrap font-montserrat text-[64px] md:text-[144px] font-bold leading-none tracking-[-2px] text-slate-200">
-          {Array.from({ length: 3 }, (_, i) => (
-            <span key={i}>
-              Let&apos;s talk <span className="text-selection">✳</span> Open for an internship <span className="text-brand-orange">✳</span>{" "}
-            </span>
-          ))}
-        </p>
-      </div>
+    <section id="contact" className="relative w-full px-4 sm:px-6 py-16 md:py-28 flex flex-col items-center text-center">
+      <p className="reveal-on-view inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 font-inter text-xs md:text-sm font-medium text-emerald-700">
+        <span aria-hidden className="size-2 rounded-full bg-emerald-500 ring-4 ring-emerald-500/15" />
+        {STATUS}
+      </p>
 
-      <h2 className="font-montserrat font-medium text-[32px] md:text-[64px] text-slate-700 tracking-[-1px] text-center">
+      <h2 className="mt-6 font-montserrat font-medium text-[40px] md:text-[80px] leading-none text-slate-800 tracking-[-1px]">
         <Reveal>Let&apos;s</Reveal> <Reveal index={1}><span className="font-doto font-black"><ScrambleText text="Talk" /></span></Reveal>
       </h2>
 
-      <div className="reveal-on-view flex w-full max-w-xl items-start gap-3">
-        {/* Comment pin */}
-        <span aria-hidden className="flex size-10 shrink-0 items-center justify-center rounded-full rounded-bl-none bg-selection font-inter text-sm font-semibold text-white shadow-md">
-          SP
-        </span>
+      <p className="mt-5 max-w-lg font-inter text-base md:text-lg leading-relaxed text-slate-600">
+        <Reveal index={2}>Looking for a UI/UX or design intern for January–July, or have a project in mind?</Reveal>{" "}
+        <Reveal index={3}>My inbox is open.</Reveal>
+      </p>
 
-        <div className="min-w-0 flex-1 rounded-2xl rounded-tl-sm border border-panel-border bg-panel p-4 md:p-6 shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
-          <p className="font-inter text-sm">
-            <span className="font-semibold text-slate-900">Safwan Piliang</span>
-            <span className="text-slate-500"> · just now</span>
-          </p>
-          <p className="mt-2 flex items-center gap-2 font-inter text-sm font-medium text-emerald-700">
-            <span aria-hidden className="size-2 shrink-0 rounded-full bg-emerald-500 ring-4 ring-emerald-500/15" />
-            {STATUS}
-          </p>
-          <p className="mt-3 font-inter text-base leading-relaxed text-slate-700">
-            I&apos;m looking for a UI/UX or design internship for the January–July period. Have a role or a project in mind? Send me a message.
-          </p>
+      <div className="reveal-on-view mt-8 flex w-full max-w-sm flex-col gap-3 sm:max-w-none sm:w-auto sm:flex-row">
+        <a
+          href={`mailto:${SITE_LINKS.email}`}
+          className="flex h-12 items-center justify-center gap-2 rounded-xl bg-brand-orange px-6 font-inter text-sm font-semibold text-ink transition-colors hover:bg-brand-orange-hover"
+        >
+          <Mail aria-hidden className="size-4" />
+          Email me
+        </a>
+        <CopyEmailButton email={SITE_LINKS.email} />
+      </div>
 
-          <div className="mt-5 flex flex-col sm:flex-row gap-2">
+      <ul className="reveal-on-view mt-8 flex flex-wrap items-center justify-center gap-1">
+        <li>
+          <a
+            href={SITE_LINKS.cv}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex h-11 items-center gap-1.5 rounded-lg px-3 font-inter text-sm font-medium text-slate-700 transition-colors hover:bg-slate-200/60 hover:text-slate-900"
+          >
+            Download CV
+            <ArrowUpRight aria-hidden className="size-4" />
+          </a>
+        </li>
+        <li aria-hidden className="mx-1 h-5 w-px bg-slate-300" />
+        {SOCIAL_LINKS.map((link) => (
+          <li key={link.href}>
             <a
-              href={`mailto:${SITE_LINKS.email}`}
-              className="flex h-11 items-center justify-center gap-2 rounded-xl bg-brand-orange px-4 font-inter text-sm font-semibold text-ink transition-colors hover:bg-brand-orange-hover"
-            >
-              <Mail aria-hidden className="size-4" />
-              Email me
-            </a>
-            <a
-              href={SITE_LINKS.cv}
+              href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-11 items-center justify-center gap-2 rounded-xl border border-panel-border px-4 font-inter text-sm font-medium text-slate-700 transition-colors hover:border-selection hover:text-selection"
+              aria-label={link.label}
+              className="flex size-11 items-center justify-center rounded-lg transition-colors hover:bg-slate-200/60"
             >
-              Download CV
-              <ArrowUpRight aria-hidden className="size-4" />
+              <Image src={link.icon} alt="" width={20} height={20} className="size-5 object-contain" />
             </a>
-          </div>
-
-          <ul className="mt-5 flex flex-wrap gap-2 border-t border-panel-border pt-4">
-            {SOCIAL_LINKS.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={link.label}
-                  className="flex size-11 items-center justify-center rounded-xl border border-panel-border transition-colors hover:border-selection"
-                >
-                  <Image src={link.icon} alt="" width={20} height={20} className="size-5 object-contain" />
-                </a>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-3 font-inter text-xs text-slate-500 break-all">{SITE_LINKS.email}</p>
-        </div>
-      </div>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

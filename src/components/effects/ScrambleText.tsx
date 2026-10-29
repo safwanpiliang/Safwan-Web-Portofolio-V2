@@ -10,11 +10,13 @@ const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+";
  */
 export function ScrambleText({ text, duration = 1500, loop = false }: { text: string, duration?: number, loop?: boolean }) {
   const ref = useRef<HTMLSpanElement>(null);
+  // Separate ref for the text: a ref handed to useInView must not be written through.
+  const textRef = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: false, margin: "-10%" });
 
   useEffect(() => {
     // Write to React's own text node so later renders (a new `text`) still update it.
-    const node = ref.current?.firstChild;
+    const node = textRef.current?.firstChild;
     if (!node) return;
     // Out of view (or scrolled away mid-scramble): just show the final text.
     if (!isInView) {
@@ -59,5 +61,9 @@ export function ScrambleText({ text, duration = 1500, loop = false }: { text: st
     };
   }, [isInView, text, duration, loop]);
 
-  return <span ref={ref}>{text}</span>;
+  return (
+    <span ref={ref}>
+      <span ref={textRef}>{text}</span>
+    </span>
+  );
 }

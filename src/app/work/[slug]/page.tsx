@@ -5,18 +5,18 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
 import { SelectionFrame } from "@/components/ui/SelectionFrame";
-import { PUBLISHED_CASE_STUDIES, projectFor } from "@/data/caseStudies";
+import { CASE_STUDIES, projectFor } from "@/data/caseStudies";
 
 type Props = { params: Promise<{ slug: string }> };
 
-// Only published case studies exist; any other slug is a 404.
+// Only listed case studies exist; any other slug is a 404.
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return PUBLISHED_CASE_STUDIES.map(({ slug }) => ({ slug }));
+  return CASE_STUDIES.map(({ slug }) => ({ slug }));
 }
 
-const findStudy = (slug: string) => PUBLISHED_CASE_STUDIES.find((s) => s.slug === slug);
+const findStudy = (slug: string) => CASE_STUDIES.find((s) => s.slug === slug);
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const study = findStudy((await params).slug);
@@ -44,8 +44,8 @@ export default async function CaseStudyPage({ params }: Props) {
   if (!study) notFound();
 
   const project = projectFor(study);
-  const index = PUBLISHED_CASE_STUDIES.indexOf(study);
-  const next = PUBLISHED_CASE_STUDIES[(index + 1) % PUBLISHED_CASE_STUDIES.length];
+  const index = CASE_STUDIES.indexOf(study);
+  const next = CASE_STUDIES[(index + 1) % CASE_STUDIES.length];
 
   const links = [
     { label: "Live project", href: project?.liveProject },
@@ -64,7 +64,7 @@ export default async function CaseStudyPage({ params }: Props) {
     <main className="canvas-grid w-full min-h-svh">
       <div className="mx-auto w-full max-w-[1100px] px-4 sm:px-6 pt-6 md:pt-10">
         <Link
-          href="/#work"
+          href="/#projects"
           className="inline-flex h-11 items-center gap-2 rounded-xl border border-panel-border bg-panel px-3 font-inter text-sm font-medium text-slate-700 transition-colors hover:text-slate-900"
         >
           <ArrowLeft aria-hidden className="size-4" />
