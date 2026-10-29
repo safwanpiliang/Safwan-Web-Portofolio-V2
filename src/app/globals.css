@@ -35,6 +35,7 @@
   --font-montserrat: var(--font-montserrat), sans-serif;
   --font-doto: var(--font-doto), monospace;
   --font-jaro: var(--font-jaro), sans-serif;
+  --font-serif: var(--font-instrument-serif), Georgia, serif;
 }
 
 body {
@@ -92,6 +93,26 @@ body {
   overflow: clip;
 }
 
+/* Hero parallax, desktop only: still until 50vh of scroll, then eases down
+ * 0 → 40px (next 200px of scroll) → 360px (next 800px), so the next section slides over it.
+ * Pure CSS scroll-driven animation (runs on the compositor). Browsers without support,
+ * phones, and reduced-motion users simply get a normal, static hero. */
+@supports ((animation-timeline: view()) and (animation-range: entry)) {
+  @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+    .parallax-hero {
+      animation: parallax-hero linear both;
+      animation-timeline: scroll(root);
+      animation-range: 50vh calc(50vh + 1000px);
+    }
+  }
+}
+
+@keyframes parallax-hero {
+  0% { transform: translate3d(0, 0, 0); }
+  20% { transform: translate3d(0, 40px, 0); }
+  100% { transform: translate3d(0, 360px, 0); }
+}
+
 /* ───────── Scroll-driven motion (V3) ─────────
  * All of it is CSS scroll/view timelines: runs on the compositor, no JS per frame.
  * Without support (Firefox, Safari < 26) or with reduced motion, everything below is skipped
@@ -147,6 +168,38 @@ body {
     .band-track {
       view-timeline: --band block;
     }
+
+    /* Journal: article pages start as one pile in the middle and fan out to their columns,
+     * tilting like paper laid on a desk. Phones (one column) just lift each page in. */
+    .journal-track {
+      view-timeline: --journal block;
+    }
+    .paper-fan-left,
+    .paper-fan-right {
+      animation: paper-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+    @media (min-width: 768px) {
+      .paper-fan-left,
+      .paper-fan-right {
+        animation-timeline: --journal;
+        animation-range: cover 0% cover 45%;
+      }
+      .paper-fan-left {
+        animation-name: fan-left;
+      }
+      .paper-fan-right {
+        animation-name: fan-right;
+      }
+    }
+
+    /* Ink rule under a page's header draws across as the page arrives. */
+    .ink-draw {
+      animation: grow-x linear both;
+      animation-timeline: view();
+      animation-range: entry 40% cover 40%;
+    }
   }
 }
 
@@ -181,6 +234,18 @@ body {
 @keyframes word-light {
   from { opacity: 0.18; }
   to { opacity: 1; }
+}
+@keyframes paper-in {
+  from { opacity: 0; transform: translate3d(0, 48px, 0) rotate(-3deg); }
+  to { opacity: 1; transform: rotate(-1deg); }
+}
+@keyframes fan-left {
+  from { transform: translate3d(calc(50% + 1.5rem), 24px, 0) rotate(3deg); }
+  to { transform: rotate(-2.5deg); }
+}
+@keyframes fan-right {
+  from { transform: translate3d(calc(-50% - 1.5rem), 0, 0) rotate(-4deg); }
+  to { transform: translate3d(0, 24px, 0) rotate(2deg); }
 }
 @keyframes slide-band-reverse {
   from { transform: translate3d(-35%, 0, 0); }
@@ -264,67 +329,4 @@ body {
 @keyframes float-down {
   0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.3; }
   50% { transform: translate3d(0, 30px, 0); opacity: 0.6; }
-}
-
-/* ───────── Kinetic hero (V3 editorial) ─────────
- * Letters rise in, inline image chips pop, the underline draws itself. All of it waits while the
- * intro loader is up: LoadingScreen sets html[data-intro="playing"] and these stay paused. */
-.kinetic-letter {
-  display: inline-block;
-  animation: letter-in 700ms var(--ease-out) both;
-  animation-delay: calc(var(--i, 0) * 35ms + var(--d, 0ms));
-}
-.chip-pop {
-  animation: chip-pop 600ms var(--ease-out) both;
-  animation-delay: var(--d, 0ms);
-}
-.scribble-path {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: draw-line 900ms var(--ease-out) forwards;
-  animation-delay: var(--d, 0ms);
-}
-html[data-intro="playing"] :is(.kinetic-letter, .chip-pop, .scribble-path) {
-  animation-play-state: paused;
-}
-
-/* Headline words drift apart and tilt as you scroll away from the hero. */
-@supports (animation-timeline: scroll()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .drift {
-      display: inline-block;
-      animation: drift linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0 80svh;
-    }
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .kinetic-letter,
-  .chip-pop {
-    animation: fade-in 0.3s ease-out both;
-  }
-  .chip-pop {
-    transform: rotate(var(--r, 0deg));
-  }
-  .scribble-path {
-    animation: none;
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes letter-in {
-  from { opacity: 0; transform: translate3d(0, 0.55em, 0) rotate(10deg); }
-  to { opacity: 1; transform: none; }
-}
-@keyframes chip-pop {
-  from { opacity: 0; transform: scale(0.8) rotate(-20deg); }
-  to { opacity: 1; transform: rotate(var(--r, 0deg)); }
-}
-@keyframes draw-line {
-  to { stroke-dashoffset: 0; }
-}
-@keyframes drift {
-  to { transform: translate3d(var(--dx, 0), 0, 0) rotate(var(--rot, 0deg)); }
 }

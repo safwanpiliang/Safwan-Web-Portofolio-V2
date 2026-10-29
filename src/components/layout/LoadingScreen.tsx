@@ -22,12 +22,8 @@ export function LoadingScreen() {
 
   useEffect(() => {
     document.body.style.overflow = isLoading ? "hidden" : "";
-    // Holds the hero's kinetic intro (globals.css) until the loader is gone.
-    if (isLoading) document.documentElement.dataset.intro = "playing";
-    else delete document.documentElement.dataset.intro;
     return () => {
       document.body.style.overflow = "";
-      delete document.documentElement.dataset.intro;
     };
   }, [isLoading]);
 

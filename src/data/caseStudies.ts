@@ -1,14 +1,14 @@
 import { PROJECTS, type Project } from "./projects";
 
 /**
- * Case studies shown as frames on the home page and as /work/[slug] pages.
+ * Case study pages (/work/[slug]); project grid cards link here when a study exists.
  * Cover image and Behance/Medium/live links come from the matching entry in projects.ts.
  * Facts follow Safwan's own project overviews; do not add claims that are not in them.
  */
 export interface CaseStudy {
   slug: string;
-  /** id in PROJECTS; omitted for locked entries that have no public project yet. */
-  projectId?: string;
+  /** id in PROJECTS (cover image and links). */
+  projectId: string;
   title: string;
   tagline: string;
   role: string;
@@ -18,8 +18,6 @@ export interface CaseStudy {
   challenge: string;
   decisions: string[];
   outcome?: string;
-  /** Client permission pending: shown as a locked card, no page is generated. */
-  locked?: boolean;
 }
 
 export const CASE_STUDIES: CaseStudy[] = [
@@ -92,48 +90,13 @@ export const CASE_STUDIES: CaseStudy[] = [
     ],
     outcome: "Built in under a month and used by more than 1,000 registrants.",
   },
-  {
-    slug: "sibudaya",
-    title: "SiBudaya",
-    tagline: "Cultural funding proposals and monitoring for Dinas Kebudayaan D.I. Yogyakarta.",
-    role: "System Analyst & UX Designer",
-    period: "Jan – Aug 2026",
-    tools: ["Figma"],
-    challenge: "",
-    decisions: [],
-    locked: true,
-  },
-  {
-    slug: "simagang",
-    title: "SiMagang",
-    tagline: "Redesigning a department's internship information system.",
-    role: "System Analyst & UI Designer",
-    period: "Aug 2026 – now",
-    tools: ["Figma", "FigJam"],
-    challenge: "",
-    decisions: [],
-    locked: true,
-  },
-  {
-    slug: "simatkul",
-    title: "SiMatkul",
-    tagline: "Course scheduling for an academic information system.",
-    role: "System Analyst & UX Designer",
-    period: "Aug 2026 – now",
-    tools: ["Figma", "FigJam"],
-    challenge: "",
-    decisions: [],
-    locked: true,
-  },
 ];
-
-export const PUBLISHED_CASE_STUDIES = CASE_STUDIES.filter((c) => !c.locked);
 
 export const projectFor = (study: CaseStudy): Project | undefined =>
   PROJECTS.find((p) => p.id === study.projectId);
 
 /** Case study page for a project grid card, if one is published. */
 export const caseStudyHref = (projectId: string) => {
-  const study = PUBLISHED_CASE_STUDIES.find((c) => c.projectId === projectId);
+  const study = CASE_STUDIES.find((c) => c.projectId === projectId);
   return study ? `/work/${study.slug}` : undefined;
 };

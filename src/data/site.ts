@@ -11,17 +11,10 @@ export const SITE_LINKS = {
 /** Availability shown in About and Contact. Update when the internship search changes. */
 export const STATUS = "Open for a UI/UX internship · from Dec 2026";
 
-/** Rows of the About "Inspect" panel. */
-export const PROFILE = [
-  { label: "Role", value: "UI/UX & Product Designer · Visual & 3D Designer" },
-  { label: "Based", value: "Yogyakarta, Indonesia" },
-  { label: "Studying", value: "D-IV Software Engineering Technology, Universitas Gadjah Mada (2024 – now)" },
-  { label: "Tools", value: "Figma, Illustrator, Photoshop, Blender" },
-];
 
 export const NAV_TABS = [
   { label: "Home", id: "hero" },
-  { label: "My Works", id: "work" },
+  { label: "My Works", id: "projects" },
   { label: "Experience", id: "experience" },
   { label: "About me", id: "about" },
 ] as const;

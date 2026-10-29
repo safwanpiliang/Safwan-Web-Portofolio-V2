@@ -1,8 +1,6 @@
 "use client";
 
-import type { CSSProperties } from "react";
 import { motion, type Variants } from "framer-motion";
-import { ImageChip, KineticWord, Scribble } from "@/components/effects/Kinetic";
 import { ScrambleText } from "@/components/effects/ScrambleText";
 import { Button } from "@/components/ui/Button";
 import { SITE_LINKS } from "@/data/site";
@@ -54,30 +52,31 @@ export function HeroContent() {
             Hi, I&apos;m <span className="font-semibold">Safwan Piliang!</span>
           </p>
 
-          {/* Kinetic headline: letters rise in, project thumbnails pop in inline, the underline draws
-              itself, and on scroll the words drift apart (.drift). Mobile 36px / desktop 48–80px. */}
-          <h1 className="flex max-w-[11ch] md:max-w-none flex-wrap items-center justify-center gap-x-[0.22em] gap-y-1 text-[40px] md:text-[56px] lg:text-[80px] leading-[1.1] text-slate-100 tracking-[0.2px]">
-            <span className="drift font-montserrat font-bold" style={{ "--dx": "-14vw", "--rot": "-6deg" } as CSSProperties}>
-              <KineticWord text="Crafting" delay={100} />
-              <ImageChip src="/images/projects/pionir.webp" alt="PIONIR Gadjah Mada 2025 website" rotate={-8} delay={650} />
-            </span>
-            <span className="drift font-doto font-black" style={{ "--dx": "12vw", "--rot": "5deg" } as CSSProperties}>
+          {/* Mobile: scaled down to 36px, Desktop: 64/72px */}
+          <h1 className="flex flex-col md:flex-row md:flex-wrap justify-center gap-x-3 gap-y-[3px] md:gap-y-[4px] items-center text-[36px] md:text-[48px] lg:text-[72px] text-slate-100 tracking-[0.2px]">
+            <motion.span
+              whileHover={{ scale: 1.05, rotate: -2 }}
+              className="font-montserrat font-bold leading-[1.2]"
+            >
+              Crafting
+            </motion.span>
+            <motion.span
+              whileHover={{ scale: 1.05, rotate: 2 }}
+              className="font-doto font-black text-slate-100 leading-[1.2]"
+            >
               <ScrambleText text="Digital" />
-            </span>
-            <span className="drift relative font-montserrat font-bold" style={{ "--dx": "-6vw", "--rot": "-3deg" } as CSSProperties}>
-              <KineticWord text="Experience" delay={350} />
-              <Scribble delay={1100} className="-bottom-[0.12em] h-[0.3em] text-brand-orange" />
-            </span>
+            </motion.span>
+            <motion.span
+              whileHover={{ scale: 1.05, rotate: -1 }}
+              className="font-montserrat font-bold leading-[1.2]"
+            >
+              Experience
+            </motion.span>
           </h1>
 
           {/* Mobile: 16px / Desktop: 36px */}
-          <p className="mt-2 font-montserrat font-medium text-[16px] md:text-[24px] lg:text-[36px] text-slate-100 tracking-[0.2px]">
-            across <span className="font-semibold">UI</span>
-            <ImageChip src="/images/projects/porsenigama.webp" alt="PORSENIGAMA 2025 UI" rotate={6} delay={900} />,{" "}
-            <span className="font-semibold">Graphic Design</span>
-            <ImageChip src="/images/projects/kmid-logo.webp" alt="KMID UGM logo redesign" rotate={-5} delay={1000} />, and{" "}
-            <span className="font-semibold">3D</span>
-            <ImageChip src="/images/projects/muzzy.webp" alt="Muzzy 3D mascot" rotate={8} delay={1100} />
+          <p className="font-montserrat font-medium text-[16px] md:text-[24px] lg:text-[36px] text-slate-100 tracking-[0.2px]">
+            across <span className="font-semibold">UI</span>, <span className="font-semibold">Graphic Design</span>, and <span className="font-semibold">3D</span>
           </p>
         </motion.div>
 
@@ -88,7 +87,7 @@ export function HeroContent() {
             icon={ChevronDown}
             animated
             className="w-full md:w-auto"
-            onClick={() => document.getElementById("work")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
           >
             Explore My Work
           </Button>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Montserrat, Doto, Jaro } from "next/font/google";
+import { Inter, Montserrat, Doto, Jaro, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { LoadingScreen } from "@/components/layout/LoadingScreen";
 import { MotionProvider } from "@/components/layout/MotionProvider";
@@ -17,6 +17,14 @@ const montserrat = Montserrat({
 const doto = Doto({
   variable: "--font-doto",
   subsets: ["latin"],
+});
+
+// Editorial serif for the Insights & Articles "journal".
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
 const jaro = Jaro({
@@ -40,7 +48,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${montserrat.variable} ${doto.variable} ${jaro.variable} antialiased`}
+      className={`${inter.variable} ${montserrat.variable} ${doto.variable} ${jaro.variable} ${instrumentSerif.variable} antialiased`}
     >
       <body className="min-h-full flex flex-col font-inter">
         <MotionProvider>
