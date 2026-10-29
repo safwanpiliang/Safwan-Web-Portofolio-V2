@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { File } from "lucide-react";
 
@@ -9,12 +10,15 @@ const DISPLAY_MS = 2000;
 
 /** Intro styled as opening a design file; the bar fills in pure CSS (see `animate-load-bar`). */
 export function LoadingScreen() {
-  const [isLoading, setIsLoading] = useState(true);
+  // Only a first visit to the home page gets the intro; a shared case study link opens straight away.
+  // The layout keeps this mounted, so client navigation back to "/" doesn't replay it either.
+  const [isLoading, setIsLoading] = useState(usePathname() === "/");
 
   useEffect(() => {
+    if (!isLoading) return;
     const timer = setTimeout(() => setIsLoading(false), DISPLAY_MS);
     return () => clearTimeout(timer);
-  }, []);
+  }, [isLoading]);
 
   useEffect(() => {
     document.body.style.overflow = isLoading ? "hidden" : "";
